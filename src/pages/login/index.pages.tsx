@@ -2,6 +2,7 @@ import Image from 'next/image'
 import {
   Container,
   HeroImage,
+  LoginContainer,
   LoginForm,
   ActionsButtons,
   LoginButton,
@@ -18,25 +19,49 @@ export default function Login() {
         quality={100}
       />
 
-      <LoginForm>
-        <header>
-          <h2>Boas vindas!</h2>
-          <span>Faça seu login ou acesse como visitante.</span>
-        </header>
+      <LoginContainer>
+        <LoginForm>
+          <header>
+            <h2>Boas vindas!</h2>
+            <span>Faça seu login ou acesse como visitante.</span>
+          </header>
 
-        <ActionsButtons>
-          <LoginButton>
-            <Image
-              src="/icons/google.svg"
-              height={32}
-              width={32}
-              quality={100}
-              alt="Google"
-            />
-            Entrar com o Google
-          </LoginButton>
-        </ActionsButtons>
-      </LoginForm>
+          <ActionsButtons>
+            <LoginButton>
+              <Image
+                src="/icons/google.svg"
+                height={32}
+                width={32}
+                quality={100}
+                alt="Google"
+              />
+              Entrar com o Google
+            </LoginButton>
+
+            <LoginButton>
+              <Image
+                src="/icons/github.svg"
+                height={32}
+                width={32}
+                quality={100}
+                alt="Github"
+              />
+              Entrar com o Github
+            </LoginButton>
+
+            <LoginButton>
+              <Image
+                src="/icons/rocket-launch.svg"
+                height={32}
+                width={32}
+                quality={100}
+                alt="Google"
+              />
+              Acessar como visitante
+            </LoginButton>
+          </ActionsButtons>
+        </LoginForm>
+      </LoginContainer>
     </Container>
   )
 }
