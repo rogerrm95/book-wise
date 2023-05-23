@@ -9,15 +9,15 @@ export const { styled, getCssText } = createStitches({
 
     space: {
       px: '1px',
-      1: '0.25rem',
-      2: '0.5rem',
-      3: '0.75rem',
-      4: '1rem',
+      1: '0.25rem', // 4
+      2: '0.5rem', // 8
+      3: '0.75rem', // 12
+      4: '1rem', // 16
       5: '1.25rem', // 20
       6: '1.5rem', // 24
-      7: '1.75rem',
-      8: '2rem',
-      10: '2.5rem',
+      7: '1.75rem', // 28
+      8: '2rem', // 32
+      10: '2.5rem', // 36
     },
 
     fontSizes: {
@@ -64,6 +64,8 @@ export const { styled, getCssText } = createStitches({
 
       'gradient-vertical': `linear-gradient(180deg, #7FD1CC 0%, #9694F5 100%)`,
       'gradient-horizontal': `linear-gradient(90deg, #7FD1CC 0%, #9694F5 100%)`,
+
+      red500: '#F75A68',
     },
 
     radii: {
