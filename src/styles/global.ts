@@ -17,4 +17,25 @@ export const globalStyles = globalCss({
   'button, a': {
     all: 'unset',
   },
+
+  /* width */
+  '::-webkit-scrollbar': {
+    width: '8px',
+    borderRadius: '999px',
+  },
+
+  /* Track */
+  '::-webkit-scrollbar-track': {
+    background: '$gray700',
+  },
+
+  /* Handle */
+  '::-webkit-scrollbar-thumb': {
+    background: '$gray600',
+  },
+
+  /* Handle on hover */
+  '::-webkit-scrollbar-thumb:hover': {
+    background: '$purple200',
+  },
 })

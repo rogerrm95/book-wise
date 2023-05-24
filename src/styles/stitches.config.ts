@@ -17,7 +17,8 @@ export const { styled, getCssText } = createStitches({
       6: '1.5rem', // 24
       7: '1.75rem', // 28
       8: '2rem', // 32
-      10: '2.5rem', // 36
+      9: '2.5rem', // 36
+      10: '2.75rem', // 40
     },
 
     fontSizes: {
