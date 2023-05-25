@@ -1,5 +1,6 @@
-import { ChartLineUp } from '@phosphor-icons/react'
+import { CaretRight, ChartLineUp } from '@phosphor-icons/react'
 
+import { Card } from '@/components/Card'
 import { Comment } from '@/components/Comment'
 import { Menu } from '@/components/Menu'
 
@@ -8,9 +9,11 @@ import {
   Main,
   Header,
   MostRecentAvaliationList,
-  Title,
   PopularBooks,
+  Content,
 } from './styles'
+import { PageTitle } from '@/components/PageTitle'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -18,21 +21,36 @@ export default function Home() {
       <Menu />
 
       <Main>
-        <Header>
-          <ChartLineUp size={32} color="#50B2C0" weight="bold" />
-          Início
-        </Header>
+        <PageTitle title="Início" Icon={ChartLineUp} />
 
-        <Title>Avaliações mais recentes</Title>
+        <Content>
+          <MostRecentAvaliationList>
+            <Header>
+              <span>Avaliações mais recentes</span>
+            </Header>
 
-        <MostRecentAvaliationList>
-          <Comment />
+            <Comment />
 
-          <Comment />
-        </MostRecentAvaliationList>
+            <Comment />
+          </MostRecentAvaliationList>
+
+          {/* LIVROS MAIS POPULARES */}
+          <PopularBooks>
+            <Header>
+              <span>Livros Populares</span>
+
+              <Link href="/">
+                Ver todos
+                <CaretRight size={16} />
+              </Link>
+            </Header>
+
+            <Card />
+
+            <Card />
+          </PopularBooks>
+        </Content>
       </Main>
-      {/* LIVROS MAIS POPULARES */}
-      <PopularBooks>CONTINUAR</PopularBooks>
     </Container>
   )
 }

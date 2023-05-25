@@ -2,11 +2,14 @@ import { styled } from '@stitches/react'
 
 export const Container = styled('div', {
   display: 'grid',
-  gridTemplateColumns: '232px 2fr 1fr',
-  gap: '$8',
+  gridTemplateColumns: '232px 1fr',
+  gap: '5rem',
   padding: '$5',
 
   height: '100vh',
+
+  maxWidth: '1440px',
+  margin: 'auto',
 })
 
 export const Main = styled('main', {
@@ -15,7 +18,7 @@ export const Main = styled('main', {
 
   display: 'flex',
   flexDirection: 'column',
-  gap: '$4',
+  gap: '$10',
 
   overflowY: 'auto',
 })
@@ -23,24 +26,49 @@ export const Main = styled('main', {
 export const Header = styled('header', {
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'space-between',
   gap: '$3',
 
-  fontWeight: '$bold',
-  fontSize: '$2xl',
-  color: '$gray100',
+  span: {
+    fontSize: '$sm',
+    color: '$gray100',
+  },
+
+  a: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '$2',
+
+    cursor: 'pointer',
+    color: '$purple100',
+    fontSize: '$sm',
+    fontWeight: '$bold',
+
+    transition: 'all 0.3s',
+
+    '&:hover': {
+      opacity: 0.75,
+    },
+  },
 })
 
-export const Title = styled('span', {
-  fontSize: '$sm',
-  color: '$gray100',
-  marginTop: '$6',
+export const Content = styled('div', {
+  width: '100%',
+
+  display: 'grid',
+  gridTemplateColumns: '2fr 1fr',
+  gap: '4rem',
 })
 
-export const MostRecentAvaliationList = styled('div', {
+export const MostRecentAvaliationList = styled('section', {
   display: 'flex',
   flexDirection: 'column',
   gap: '$3',
 })
 
 // CONTINUAR //
-export const PopularBooks = styled('div', {})
+export const PopularBooks = styled('section', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '$3',
+})
