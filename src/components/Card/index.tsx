@@ -1,6 +1,6 @@
-import { Star } from '@phosphor-icons/react'
+import { Rating } from '../Rating'
 
-import { CardContainer, BookImage, BookInfo, BookRating } from './styles'
+import { CardContainer, BookImage, BookInfo } from './styles'
 
 export function Card() {
   return (
@@ -20,13 +20,7 @@ export function Card() {
 
         <span>Zeno Rocha</span>
 
-        <BookRating>
-          <Star size={16} color="#8381D9" weight="fill" />
-          <Star size={16} color="#8381D9" weight="fill" />
-          <Star size={16} color="#8381D9" weight="fill" />
-          <Star size={16} color="#8381D9" weight="fill" />
-          <Star size={16} color="#8381D9" />
-        </BookRating>
+        <Rating avaliationNumber={5} />
       </BookInfo>
     </CardContainer>
   )

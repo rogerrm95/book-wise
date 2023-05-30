@@ -34,10 +34,3 @@ export const BookInfo = styled('div', {
     color: '$gray400',
   },
 })
-
-export const BookRating = styled('div', {
-  display: 'flex',
-  gap: '$1',
-
-  marginTop: 'auto',
-})

@@ -1,21 +1,24 @@
+import Link from 'next/link'
 import { CaretRight, ChartLineUp } from '@phosphor-icons/react'
 
+import { BookCard } from '@/components/BookCard'
 import { Card } from '@/components/Card'
 import { Comment } from '@/components/Comment'
 import { Menu } from '@/components/Menu'
+import { PageTitle } from '@/components/PageTitle'
 
 import {
   Container,
   Main,
   Header,
-  MostRecentAvaliationList,
+  SectionContainer,
   PopularBooks,
   Content,
 } from './styles'
-import { PageTitle } from '@/components/PageTitle'
-import Link from 'next/link'
 
 export default function Home() {
+  const isSigned = true
+
   return (
     <Container>
       <Menu />
@@ -24,7 +27,24 @@ export default function Home() {
         <PageTitle title="Início" Icon={ChartLineUp} />
 
         <Content>
-          <MostRecentAvaliationList>
+          {/* ÚLTIMA LEITURA */}
+          {isSigned && (
+            <SectionContainer>
+              <Header>
+                <span>Sua última leitura</span>
+
+                <Link href="/">
+                  Ver todos
+                  <CaretRight size={16} />
+                </Link>
+              </Header>
+
+              <BookCard />
+            </SectionContainer>
+          )}
+
+          {/* AVALIAÇÕES MAIS RECENTES */}
+          <SectionContainer>
             <Header>
               <span>Avaliações mais recentes</span>
             </Header>
@@ -32,25 +52,25 @@ export default function Home() {
             <Comment />
 
             <Comment />
-          </MostRecentAvaliationList>
-
-          {/* LIVROS MAIS POPULARES */}
-          <PopularBooks>
-            <Header>
-              <span>Livros Populares</span>
-
-              <Link href="/">
-                Ver todos
-                <CaretRight size={16} />
-              </Link>
-            </Header>
-
-            <Card />
-
-            <Card />
-          </PopularBooks>
+          </SectionContainer>
         </Content>
       </Main>
+
+      {/* LIVROS MAIS POPULARES */}
+      <PopularBooks>
+        <Header>
+          <span>Livros Populares</span>
+
+          <Link href="/">
+            Ver todos
+            <CaretRight size={16} />
+          </Link>
+        </Header>
+
+        <Card />
+
+        <Card />
+      </PopularBooks>
     </Container>
   )
 }

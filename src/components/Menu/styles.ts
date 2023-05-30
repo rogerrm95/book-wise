@@ -9,8 +9,10 @@ export const MenuContainer = styled('aside', {
   flexDirection: 'column',
   alignItems: 'center',
   padding: '$6 $2',
-
   borderRadius: '$md',
+
+  maxHeight: '900px',
+  height: '100%',
 })
 
 export const MenuList = styled('div', {

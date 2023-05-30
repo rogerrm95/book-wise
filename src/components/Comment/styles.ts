@@ -2,7 +2,7 @@ import { styled } from '@stitches/react'
 import Image from 'next/image'
 
 export const CommentContainer = styled('div', {
-  padding: '$6',
+  padding: '$5 $6',
 
   display: 'flex',
   flexDirection: 'column',
@@ -27,12 +27,6 @@ export const User = styled('div', {
     color: '$gray400',
     fontSize: '$sm',
   },
-})
-
-export const Rating = styled('div', {
-  display: 'flex',
-  justifyContent: 'flex-end',
-  gap: '$1',
 })
 
 export const Content = styled('div', {

@@ -1,10 +1,9 @@
-import { Star } from '@phosphor-icons/react'
 import { Avatar } from '../Avatar'
+import { Rating } from '../Rating'
 import {
   CommentContainer,
   Header,
   User,
-  Rating,
   Content,
   BookImage,
   BookInfo,
@@ -25,13 +24,7 @@ export function Comment() {
           <span>Hoje</span>
         </User>
 
-        <Rating>
-          <Star size={16} color="#8381D9" weight="fill" />
-          <Star size={16} color="#8381D9" weight="fill" />
-          <Star size={16} color="#8381D9" weight="fill" />
-          <Star size={16} color="#8381D9" weight="fill" />
-          <Star size={16} color="#8381D9" />
-        </Rating>
+        <Rating avaliationNumber={4} />
       </Header>
 
       <Content>
