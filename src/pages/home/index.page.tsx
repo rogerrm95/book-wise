@@ -67,9 +67,9 @@ export default function Home() {
           </Link>
         </Header>
 
-        <Card />
+        <Card image={{ width: 64, height: 94 }} />
 
-        <Card />
+        <Card image={{ width: 64, height: 94 }} />
       </PopularBooks>
     </Container>
   )
