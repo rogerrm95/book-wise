@@ -34,8 +34,8 @@ export function Menu() {
         </MenuLink>
 
         <MenuLink
-          href={'/explorar'}
-          className={isRouteActive.includes('explorar') ? 'active' : ''}
+          href={'/explore'}
+          className={isRouteActive.includes('explore') ? 'active' : ''}
         >
           <Binoculars size={24} />
           Explorar
@@ -43,7 +43,7 @@ export function Menu() {
 
         <MenuLink
           href={'/profile'}
-          className={isRouteActive.includes('perfil') ? 'active' : ''}
+          className={isRouteActive.includes('profile') ? 'active' : ''}
         >
           <User size={24} />
           Perfil
