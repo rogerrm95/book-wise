@@ -8,7 +8,15 @@ export const CardContainer = styled('div', {
   gap: '$10',
 
   backgroundColor: '$gray700',
+  border: '1px solid $gray700',
   borderRadius: '$md',
+
+  transition: 'all 0.3s',
+  cursor: 'pointer',
+
+  '&:hover': {
+    borderColor: '$gray600',
+  },
 })
 
 export const BookImage = styled(Image, {
