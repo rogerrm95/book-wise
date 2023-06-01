@@ -17,6 +17,9 @@ export const AvatarContainer = styled('img', {
       lg: {
         width: '2.5rem',
       },
+      xl: {
+        width: '4.5rem',
+      },
     },
   },
 })

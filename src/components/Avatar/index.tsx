@@ -3,7 +3,7 @@ import { AvatarContainer } from './styles'
 interface AvatarProps {
   avatarUrl: string
   username: string
-  size?: 'sm' | 'md' | 'lg'
+  size?: 'sm' | 'md' | 'lg' | 'xl'
 }
 
 export function Avatar({ avatarUrl, username, size = 'md' }: AvatarProps) {
