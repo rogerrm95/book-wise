@@ -1,6 +1,6 @@
 import { Rating } from '../Rating'
 
-import { CardContainer, BookImage, BookInfo } from './styles'
+import { CardContainer, BookImage, BookInfo, Tag } from './styles'
 
 interface CardProps {
   image: {
@@ -10,6 +10,8 @@ interface CardProps {
 }
 
 export function Card({ image }: CardProps) {
+  const isBookAlreadyReaded = true
+
   return (
     <CardContainer>
       <BookImage
@@ -29,6 +31,8 @@ export function Card({ image }: CardProps) {
 
         <Rating avaliationNumber={5} />
       </BookInfo>
+
+      {isBookAlreadyReaded && <Tag>LIDO</Tag>}
     </CardContainer>
   )
 }
