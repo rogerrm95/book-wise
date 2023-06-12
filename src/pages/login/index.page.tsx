@@ -1,3 +1,5 @@
+import { signIn } from 'next-auth/react'
+
 import Image from 'next/image'
 import {
   Container,
@@ -9,6 +11,12 @@ import {
 } from './styles'
 
 export default function Login() {
+  async function handleLoginWithGoogle() {
+    const data = await signIn('google')
+
+    console.log(data)
+  }
+
   return (
     <Container>
       <HeroImage
@@ -26,8 +34,9 @@ export default function Login() {
             <span>Faça seu login ou acesse como visitante.</span>
           </header>
 
+          {/* LOGIN */}
           <ActionsButtons>
-            <LoginButton>
+            <LoginButton onClick={() => handleLoginWithGoogle()}>
               <Image
                 src="/icons/google.svg"
                 height={32}
