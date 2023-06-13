@@ -11,11 +11,11 @@ import {
 } from './styles'
 
 export default function Login() {
-  async function handleLoginWithGoogle() {
-    const data = await signIn('google')
+  // async function handleLoginWithGoogle() {
+  //   const data = await signIn('google')
 
-    console.log(data)
-  }
+  //   console.log(data)
+  // }
 
   return (
     <Container>
@@ -36,7 +36,7 @@ export default function Login() {
 
           {/* LOGIN */}
           <ActionsButtons>
-            <LoginButton onClick={() => handleLoginWithGoogle()}>
+            <LoginButton onClick={async () => await signIn('google')}>
               <Image
                 src="/icons/google.svg"
                 height={32}

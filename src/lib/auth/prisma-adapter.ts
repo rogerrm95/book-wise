@@ -44,7 +44,7 @@ export function PrismaAdapter(
     },
 
     async getUserByEmail(email) {
-      const user = await prisma.user.findFirstOrThrow({
+      const user = await prisma.user.findFirst({
         where: {
           email,
         },
@@ -143,7 +143,7 @@ export function PrismaAdapter(
     },
 
     async getSessionAndUser(sessionToken) {
-      const prismaSession = await prisma.session.findUniqueOrThrow({
+      const prismaSession = await prisma.session.findUnique({
         where: {
           session_token: sessionToken,
         },

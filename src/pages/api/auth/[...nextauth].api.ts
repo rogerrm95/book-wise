@@ -16,7 +16,7 @@ export function buildNextAuthOptions(
     providers: [
       GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID ?? '',
-        clientSecret: process.env.GOOGLE_SECRET_KEY ?? '',
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
         authorization: {
           params: {
             prompt: 'consent',
@@ -47,10 +47,13 @@ export function buildNextAuthOptions(
           user,
         }
       },
+      async signIn() {
+        return true
+      },
     },
-  } as NextAuthOptions
+  }
 }
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
-  return NextAuth(req, res, buildNextAuthOptions(req, res))
+  return await NextAuth(req, res, buildNextAuthOptions(req, res))
 }
