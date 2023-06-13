@@ -2,6 +2,8 @@ import { Adapter } from 'next-auth/adapters'
 import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
 import { prisma } from '../prisma'
 
+import { setCookie } from 'nookies'
+
 export function PrismaAdapter(
   req: NextApiRequest | NextPageContext['req'],
   res: NextApiResponse | NextPageContext['res'],
@@ -14,6 +16,12 @@ export function PrismaAdapter(
           avatar_url: user.avatar_url,
           email: user.email,
         },
+      })
+
+      // COOKIES //
+      setCookie({ res }, '@ignite-book-wise:userId', user.email, {
+        maxAge: 60 * 60 * 7, // 7 DIAS
+        path: '/',
       })
 
       return {

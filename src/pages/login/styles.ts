@@ -1,4 +1,4 @@
-import { styled } from '@stitches/react'
+import { keyframes, styled } from '@stitches/react'
 import Image from 'next/image'
 
 export const Container = styled('div', {
@@ -79,5 +79,30 @@ export const LoginButton = styled('button', {
 
   '&:focus': {
     borderColor: '$purple100',
+  },
+})
+
+const showAndHidden = keyframes({
+  '0%': { opacity: 100 },
+  '25%': { opacity: 0 },
+  '50%': { opacity: 100 },
+  '75%': { opacity: 0 },
+  '100%': { opacity: 100 },
+})
+
+export const SigningMessage = styled('div', {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  animation: `${showAndHidden} 4s infinite`,
+
+  span: {
+    color: '$gray300',
+    fontWeight: '$bold',
+  },
+
+  strong: {
+    letterSpacing: 10,
+    marginLeft: '$3',
   },
 })
