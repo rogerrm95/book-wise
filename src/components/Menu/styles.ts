@@ -88,13 +88,23 @@ export const MenuSignOutButton = styled('button', {
   gap: '$3',
   marginTop: 'auto',
 
-  fontSize: '$sm',
-  color: '$gray200',
-
   cursor: 'pointer',
   transition: 'opacity 0.3s',
 
   '&:hover': {
     opacity: 0.7,
+  },
+
+  span: {
+    overflow: 'hidden',
+    display: '-webkit-box',
+    '-webkit-box-orient': 'vertical',
+    '-webkit-line-clamp': 1,
+    whiteSpace: 'pre-wrap',
+    textAlign: 'center',
+    maxWidth: '128px',
+
+    fontSize: '$sm',
+    color: '$gray200',
   },
 })

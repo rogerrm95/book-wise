@@ -11,14 +11,14 @@ import {
   MenuSignInButton,
   MenuSignOutButton,
 } from './styles'
+import { useSession } from 'next-auth/react'
 
 export function Menu() {
   const router = useRouter()
+  const { status, data } = useSession()
 
   const { pathname } = router
   const isRouteActive = pathname.split('/')
-
-  const isSigned = true
 
   return (
     <MenuContainer>
@@ -50,18 +50,15 @@ export function Menu() {
         </MenuLink>
       </MenuList>
 
-      {isSigned ? (
+      {status === 'authenticated' ? (
         <MenuSignOutButton>
-          <Avatar
-            avatarUrl="https://avatars.githubusercontent.com/u/56278484?v=4.png"
-            username="Rogério Marques"
-          />
-          Roger Marques
+          <Avatar avatarUrl={data.user.avatar_url} username={data.user.name} />
+          <span>{data.user.name} Fernandes da Silva Pereira</span>
           <SignIn size={20} color="#F75A68" weight="bold" />
         </MenuSignOutButton>
       ) : (
         <MenuSignInButton>
-          Fazer Login
+          <span>Fazer Login</span>
           <SignIn size={20} color="#7FD1CC" weight="bold" />
         </MenuSignInButton>
       )}
