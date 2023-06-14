@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useSession, signOut } from 'next-auth/react'
 
 import { Avatar } from '../Avatar'
 import { ChartLineUp, Binoculars, SignIn, User } from '@phosphor-icons/react'
@@ -11,7 +12,6 @@ import {
   MenuSignInButton,
   MenuSignOutButton,
 } from './styles'
-import { useSession } from 'next-auth/react'
 
 export function Menu() {
   const router = useRouter()
@@ -19,6 +19,13 @@ export function Menu() {
 
   const { pathname } = router
   const isRouteActive = pathname.split('/')
+
+  // DESLOGAR USUÁRIO //
+  async function handleSignOut() {
+    await signOut({
+      callbackUrl: 'http://localhost:3000/', // ALTERAR EM PRODUÇÃO,
+    })
+  }
 
   return (
     <MenuContainer>
@@ -51,7 +58,7 @@ export function Menu() {
       </MenuList>
 
       {status === 'authenticated' ? (
-        <MenuSignOutButton>
+        <MenuSignOutButton onClick={handleSignOut}>
           <Avatar avatarUrl={data.user.avatar_url} username={data.user.name} />
           <span>{data.user.name} Fernandes da Silva Pereira</span>
           <SignIn size={20} color="#F75A68" weight="bold" />
