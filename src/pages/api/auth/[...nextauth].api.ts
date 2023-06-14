@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google'
-import GitHubProvider from 'next-auth/providers/github'
+import GitHubProvider, { GithubProfile } from 'next-auth/providers/github'
 
 import { PrismaAdapter } from '@/lib/auth/prisma-adapter'
 
@@ -38,6 +38,14 @@ export function buildNextAuthOptions(
       GitHubProvider({
         clientId: process.env.GITHUB_ID ?? '',
         clientSecret: process.env.GITHUB_SECRET ?? '',
+        profile: (profile: GithubProfile) => {
+          return {
+            id: String(profile.id),
+            name: profile.name ?? '',
+            avatar_url: profile.avatar_url,
+            email: profile.email ?? '',
+          }
+        },
       }),
     ],
     callbacks: {
@@ -47,7 +55,7 @@ export function buildNextAuthOptions(
           user,
         }
       },
-      async signIn() {
+      async signIn(params) {
         return true
       },
     },

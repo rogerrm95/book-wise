@@ -60,7 +60,7 @@ export function Menu() {
       {status === 'authenticated' ? (
         <MenuSignOutButton onClick={handleSignOut}>
           <Avatar avatarUrl={data.user.avatar_url} username={data.user.name} />
-          <span>{data.user.name} Fernandes da Silva Pereira</span>
+          <span>{data.user.name}</span>
           <SignIn size={20} color="#F75A68" weight="bold" />
         </MenuSignOutButton>
       ) : (
