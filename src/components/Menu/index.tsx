@@ -1,10 +1,10 @@
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useSession, signOut } from 'next-auth/react'
+import Image from 'next/image'
 
 import { Avatar } from '../Avatar'
-import { ChartLineUp, Binoculars, SignIn, User } from '@phosphor-icons/react'
 
+import { ChartLineUp, Binoculars, SignIn, User } from '@phosphor-icons/react'
 import {
   MenuLink,
   MenuContainer,
@@ -12,6 +12,7 @@ import {
   MenuSignInButton,
   MenuSignOutButton,
 } from './styles'
+import Link from 'next/link'
 
 export function Menu() {
   const router = useRouter()
@@ -23,7 +24,7 @@ export function Menu() {
   // DESLOGAR USUÁRIO //
   async function handleSignOut() {
     await signOut({
-      callbackUrl: 'http://localhost:3000/', // ALTERAR EM PRODUÇÃO,
+      callbackUrl: 'http://localhost:3000/', // <- ALTERAR EM PRODUÇÃO,
     })
   }
 
@@ -48,13 +49,15 @@ export function Menu() {
           Explorar
         </MenuLink>
 
-        <MenuLink
-          href={'/profile'}
-          className={isRouteActive.includes('profile') ? 'active' : ''}
-        >
-          <User size={24} />
-          Perfil
-        </MenuLink>
+        {status === 'authenticated' && (
+          <MenuLink
+            href={`/profile/${data.user.email}`}
+            className={isRouteActive.includes('profile') ? 'active' : ''}
+          >
+            <User size={24} />
+            Perfil
+          </MenuLink>
+        )}
       </MenuList>
 
       {status === 'authenticated' ? (
@@ -64,7 +67,7 @@ export function Menu() {
           <SignIn size={20} color="#F75A68" weight="bold" />
         </MenuSignOutButton>
       ) : (
-        <MenuSignInButton>
+        <MenuSignInButton as={Link} href="/">
           <span>Fazer Login</span>
           <SignIn size={20} color="#7FD1CC" weight="bold" />
         </MenuSignInButton>

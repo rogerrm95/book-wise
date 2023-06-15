@@ -15,9 +15,10 @@ import {
   PopularBooks,
   Content,
 } from './styles'
+import { useSession } from 'next-auth/react'
 
 export default function Home() {
-  const isSigned = true
+  const { status } = useSession()
 
   return (
     <Container>
@@ -28,7 +29,7 @@ export default function Home() {
 
         <Content>
           {/* ÚLTIMA LEITURA */}
-          {isSigned && (
+          {status === 'authenticated' && (
             <SectionContainer>
               <Header>
                 <span>Sua última leitura</span>
