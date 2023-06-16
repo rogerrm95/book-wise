@@ -12,7 +12,25 @@ export default async function handler(
     return res.status(405)
   }
 
-  const books = await prisma.book.findMany()
+  const results = await prisma.$transaction([
+    prisma.book.count(), // QUANTIDADE DE LIVROS CADASTRADOS //
+    prisma.book.findMany({
+      take: 9,
+      orderBy: {
+        name: 'asc',
+      },
+    }),
+  ])
 
-  return res.json({ books })
+  const total = results[0] ?? 0
+  const books = results[1].map((book) => {
+    return {
+      author: book.author,
+      id: book.id,
+      name: book.name,
+      imageUrl: book.cover_url,
+    }
+  }) as any
+
+  return res.json({ total, books })
 }

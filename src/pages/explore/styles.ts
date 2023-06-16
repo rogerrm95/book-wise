@@ -1,4 +1,4 @@
-import { styled } from '@stitches/react'
+import { keyframes, styled } from '@stitches/react'
 
 export const Container = styled('div', {
   display: 'grid',
@@ -19,7 +19,7 @@ export const Main = styled('main', {
 
   paddingTop: '3rem',
   paddingRight: '1rem',
-  marginBottom: '$10',
+  paddingBottom: '30px',
 })
 
 export const Header = styled('header', {
@@ -66,9 +66,44 @@ export const BookList = styled('div', {
   display: 'grid',
   gridTemplateColumns: 'repeat(auto-fit, 318px)',
   gap: '$5',
-  marginBottom: '$4',
 
   '@media(max-width:992px)': {
     gridTemplateColumns: 'repeat(auto-fit, 100%)',
+  },
+})
+
+const loadingSpinner = keyframes({
+  from: {
+    transform: 'rotate(0deg)',
+  },
+  to: {
+    transform: 'rotate(359deg)',
+  },
+})
+
+export const ReadMoreButton = styled('button', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '$3',
+
+  alignSelf: 'center',
+
+  color: '$purple100',
+  fontWeight: '$bold',
+  fontSize: '$sm',
+  border: '1px solid $colors$purple100',
+  borderRadius: '$sm',
+  maxWidth: '96px',
+
+  cursor: 'pointer',
+  transition: 'all 0.3s',
+
+  '&:hover': {
+    opacity: 0.7,
+  },
+
+  svg: {
+    animation: `${loadingSpinner} 2.5s infinite linear`,
   },
 })
