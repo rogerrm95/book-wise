@@ -1,28 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { api } from '@/lib/axios'
+import { categoriesList } from '@/utils/categoriesList'
 
 import { Card } from '@/components/Card'
 import { Menu } from '@/components/Menu'
 import { PageTitle } from '@/components/PageTitle'
 import { SearchInput } from '@/components/Forms/SearchInput'
 
-import { Binoculars, Spinner } from '@phosphor-icons/react'
-import {
-  Container,
-  Main,
-  Header,
-  BookList,
-  Categories,
-  Tag,
-  ReadMoreButton,
-} from './styles'
+import { Binoculars } from '@phosphor-icons/react'
+import { Container, Main, Header, BookList, Categories, Tag } from './styles'
 
 type Books = {
   id: string
   name: string
   imageUrl: string
   author: string
+  categories: Array<string>
 }
 
 interface ExploreProps {
@@ -34,21 +28,19 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
   const [selectedCategory, setSelectedCategory] = useState('')
   const [booksList, setBooksList] = useState<Books[]>(books as Books[])
 
-  // CARRENGADO DADOS DA API //
-  const [isLoading, setIsLoadning] = useState(false)
+  useEffect(() => {
+    if (selectedCategory) {
+      const newBook = books
+        .map((book) => {
+          return book.categories.includes(selectedCategory) ? book : null
+        })
+        .filter((book) => book) as Books[]
 
-  // FUNÇÃO - CARREGAR MAIS LIVROS //
-  async function loadMoreBooks(skip: number) {
-    setIsLoadning(true)
-    const result = await api
-      .get(`/books/skip/`, { params: { skip } })
-      .then((res) => res.data.books)
-
-    setBooksList((props) => {
-      return [...props, ...result]
-    })
-    setIsLoadning(false)
-  }
+      setBooksList(newBook)
+    } else {
+      setBooksList(books)
+    }
+  }, [selectedCategory, books])
 
   return (
     <Container>
@@ -69,19 +61,15 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
             Tudo
           </Tag>
 
-          <Tag
-            className={selectedCategory === 'Programação' ? 'active' : ''}
-            onClick={() => setSelectedCategory('Programação')}
-          >
-            Programação
-          </Tag>
-
-          <Tag
-            className={selectedCategory === 'Educação' ? 'active' : ''}
-            onClick={() => setSelectedCategory('Educação')}
-          >
-            Educação
-          </Tag>
+          {categoriesList.map((categoryItem) => (
+            <Tag
+              key={categoryItem}
+              className={selectedCategory === categoryItem ? 'active' : ''}
+              onClick={() => setSelectedCategory(categoryItem)}
+            >
+              {categoryItem}
+            </Tag>
+          ))}
         </Categories>
 
         <BookList>
@@ -97,15 +85,6 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
               )
             })}
         </BookList>
-
-        {totalOfBooks > booksList.length && (
-          <ReadMoreButton
-            onClick={() => loadMoreBooks(books.length)}
-            disabled={isLoading}
-          >
-            {isLoading ? <Spinner size={24} weight="bold" /> : 'Ler mais'}
-          </ReadMoreButton>
-        )}
       </Main>
     </Container>
   )
@@ -121,3 +100,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   }
 }
+
+// 1 - Avaliações - Alterar layout //
+// 1 - Lidos ou não (Usuário conectado) //
