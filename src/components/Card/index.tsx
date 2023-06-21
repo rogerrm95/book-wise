@@ -10,9 +10,10 @@ interface CardProps {
     height: number
     url: string
   }
+  rating: number
 }
 
-export function Card({ image, author, name }: CardProps) {
+export function Card({ image, author, name, rating }: CardProps) {
   const isBookAlreadyReaded = true
 
   return (
@@ -30,7 +31,7 @@ export function Card({ image, author, name }: CardProps) {
 
         <span>{author}</span>
 
-        <Rating avaliationNumber={5} />
+        <Rating rating={rating} />
       </BookInfo>
 
       {isBookAlreadyReaded && <Tag>LIDO</Tag>}

@@ -17,6 +17,7 @@ type Books = {
   imageUrl: string
   author: string
   categories: Array<string>
+  rating: number
 }
 
 interface ExploreProps {
@@ -81,6 +82,7 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
                   name={book.name}
                   author={book.author}
                   image={{ width: 108, height: 152, url: book.imageUrl }}
+                  rating={book.rating}
                 />
               )
             })}

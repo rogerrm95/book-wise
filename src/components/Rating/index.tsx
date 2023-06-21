@@ -2,14 +2,17 @@ import { Star } from '@phosphor-icons/react'
 import { RatingContainer } from './styles'
 
 interface RatingProps {
-  avaliationNumber: number
+  rating: number
   sizeIcons?: number
 }
 
-export function Rating({ avaliationNumber, sizeIcons = 16 }: RatingProps) {
-  const starsFullAmount = new Array(avaliationNumber).fill(1)
+// Variável Auxiliar - Quantidade de Estrelas //
+const AMOUNT_STARS = 5
+
+export function Rating({ rating, sizeIcons = 16 }: RatingProps) {
+  const starsFullAmount = Array(rating).fill(1)
   const starsEmptyAmount =
-    5 - avaliationNumber !== 0 ? new Array(5 - avaliationNumber).fill(0) : null
+    AMOUNT_STARS - rating > 0 ? Array(AMOUNT_STARS - rating).fill(0) : null
 
   return (
     <RatingContainer>
@@ -21,8 +24,6 @@ export function Rating({ avaliationNumber, sizeIcons = 16 }: RatingProps) {
         starsEmptyAmount.map((_, index) => (
           <Star size={sizeIcons} key={index} color="#8381D9" />
         ))}
-
-      {/* <Star size={24} key={index} /> */}
     </RatingContainer>
   )
 }

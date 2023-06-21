@@ -43,7 +43,7 @@ export default async function handler(
       name: book.name,
       imageUrl: book.cover_url,
       categories: book.categories.map((category) => category.category.name),
-      ratings: average,
+      rating: Number(average),
     }
   }) as any
 
