@@ -34,11 +34,13 @@ interface ExploreProps {
 }
 
 export default function Explore({ books, totalOfBooks }: ExploreProps) {
-  const [selectedCategory, setSelectedCategory] = useState('')
   const [booksList, setBooksList] = useState<Books[]>(books as Books[])
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [searchInputValue, setSearchInputValue] = useState('')
 
   const { data } = useSession()
 
+  // EFEITO COLATERAL - SELECIONANDO UMA CATEGORIA, É APLICADO UM FILTRO COM BASE NELA //
   useEffect(() => {
     if (selectedCategory) {
       const newBook = books
@@ -51,7 +53,32 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
     } else {
       setBooksList(books)
     }
+
+    setSearchInputValue('')
   }, [selectedCategory, books])
+
+  // FUNÇÃO - BUSCAR CORRESPONDÊNCIA //
+  // FILTRAR POR NOME DE LIVRO OU NOME DE AUTOR //
+  function onSearchingBookOrAuthor(text: string) {
+    if (text.length > 0) {
+      const formattedText = text.trim().toLocaleLowerCase()
+
+      const filteredBookList = books.filter((book) => {
+        return (
+          (book.name.toLocaleLowerCase().includes(formattedText) ||
+            book.author.toLocaleLowerCase().includes(formattedText)) &&
+          book
+        )
+      })
+
+      setBooksList(filteredBookList)
+    } else {
+      setBooksList(books)
+    }
+
+    setSearchInputValue(text)
+    setSelectedCategory('')
+  }
 
   return (
     <Container>
@@ -61,7 +88,12 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
         <Header>
           <PageTitle title="Explorar" Icon={Binoculars} />
 
-          <SearchInput placeholder="Buscar livro ou autor" size="md" />
+          <SearchInput
+            onSearchingChange={(e) => onSearchingBookOrAuthor(e)}
+            value={searchInputValue}
+            placeholder="Buscar livro ou autor"
+            size="md"
+          />
         </Header>
 
         {/* LISTA DE CATEGORIAS */}
