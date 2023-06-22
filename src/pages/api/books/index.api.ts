@@ -26,7 +26,9 @@ export default async function handler(
         },
         ratings: {
           select: {
+            id: true,
             rate: true,
+            user_id: true,
           },
         },
       },
@@ -43,9 +45,18 @@ export default async function handler(
       name: book.name,
       imageUrl: book.cover_url,
       categories: book.categories.map((category) => category.category.name),
-      rating: Number(average),
+      average: Number(average),
+      ratings: book.ratings.map((rating) => {
+        return {
+          id: rating.id,
+          rating: rating.rate,
+          userId: rating.user_id,
+        }
+      }),
     }
   }) as any
+
+  console.log(books[8])
 
   return res.json({ total, books })
 }

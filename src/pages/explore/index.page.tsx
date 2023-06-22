@@ -10,6 +10,13 @@ import { SearchInput } from '@/components/Forms/SearchInput'
 
 import { Binoculars } from '@phosphor-icons/react'
 import { Container, Main, Header, BookList, Categories, Tag } from './styles'
+import { useSession } from 'next-auth/react'
+
+type Ratings = {
+  id: string
+  rating: number
+  userId: string
+}
 
 type Books = {
   id: string
@@ -17,7 +24,8 @@ type Books = {
   imageUrl: string
   author: string
   categories: Array<string>
-  rating: number
+  average: number
+  ratings: Ratings[]
 }
 
 interface ExploreProps {
@@ -28,6 +36,8 @@ interface ExploreProps {
 export default function Explore({ books, totalOfBooks }: ExploreProps) {
   const [selectedCategory, setSelectedCategory] = useState('')
   const [booksList, setBooksList] = useState<Books[]>(books as Books[])
+
+  const { data } = useSession()
 
   useEffect(() => {
     if (selectedCategory) {
@@ -54,6 +64,7 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
           <SearchInput placeholder="Buscar livro ou autor" size="md" />
         </Header>
 
+        {/* LISTA DE CATEGORIAS */}
         <Categories>
           <Tag
             className={!selectedCategory ? 'active' : ''}
@@ -73,6 +84,7 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
           ))}
         </Categories>
 
+        {/* LISTA DE LIVROS */}
         <BookList>
           {booksList &&
             booksList.map((book, index) => {
@@ -82,7 +94,10 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
                   name={book.name}
                   author={book.author}
                   image={{ width: 108, height: 152, url: book.imageUrl }}
-                  rating={book.rating}
+                  rating={book.average}
+                  isRead={book.ratings.some(
+                    (rate) => rate.userId === data?.user.id,
+                  )}
                 />
               )
             })}

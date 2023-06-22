@@ -11,11 +11,16 @@ interface CardProps {
     url: string
   }
   rating: number
+  isRead?: boolean
 }
 
-export function Card({ image, author, name, rating }: CardProps) {
-  const isBookAlreadyReaded = true
-
+export function Card({
+  image,
+  author,
+  name,
+  rating,
+  isRead = false,
+}: CardProps) {
   return (
     <CardContainer>
       <BookImage
@@ -34,7 +39,7 @@ export function Card({ image, author, name, rating }: CardProps) {
         <Rating rating={rating} />
       </BookInfo>
 
-      {isBookAlreadyReaded && <Tag>LIDO</Tag>}
+      {isRead && <Tag>LIDO</Tag>}
     </CardContainer>
   )
 }
