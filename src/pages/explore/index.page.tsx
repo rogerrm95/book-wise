@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useSession } from 'next-auth/react'
 import { GetServerSideProps } from 'next'
 import { api } from '@/lib/axios'
 import { categoriesList } from '@/utils/categoriesList'
@@ -10,7 +11,6 @@ import { SearchInput } from '@/components/Forms/SearchInput'
 
 import { Binoculars } from '@phosphor-icons/react'
 import { Container, Main, Header, BookList, Categories, Tag } from './styles'
-import { useSession } from 'next-auth/react'
 
 type Ratings = {
   id: string
@@ -35,27 +35,33 @@ interface ExploreProps {
 
 export default function Explore({ books, totalOfBooks }: ExploreProps) {
   const [booksList, setBooksList] = useState<Books[]>(books as Books[])
+  const [booksFilteredList, setBooksFilteredList] = useState<Books[]>(
+    books as Books[],
+  )
   const [selectedCategory, setSelectedCategory] = useState('')
   const [searchInputValue, setSearchInputValue] = useState('')
 
   const { data } = useSession()
 
-  // EFEITO COLATERAL - SELECIONANDO UMA CATEGORIA, É APLICADO UM FILTRO COM BASE NELA //
-  useEffect(() => {
-    if (selectedCategory) {
+  // FUNÇÃO - SELECIONAR UMA CATEGORIA //
+  // SELECIONANDO UMA CATEGORIA É APLICADO UM FILTRO RETORNANDO UM NOVO ARRAY //
+  function onSelectAnyCategory(category: string) {
+    setSearchInputValue('')
+
+    if (category) {
       const newBook = books
         .map((book) => {
-          return book.categories.includes(selectedCategory) ? book : null
+          return book.categories.includes(category) ? book : null
         })
         .filter((book) => book) as Books[]
 
+      setSelectedCategory(category)
       setBooksList(newBook)
     } else {
       setBooksList(books)
+      setSelectedCategory(category)
     }
-
-    setSearchInputValue('')
-  }, [selectedCategory, books])
+  }
 
   // FUNÇÃO - BUSCAR CORRESPONDÊNCIA //
   // FILTRAR POR NOME DE LIVRO OU NOME DE AUTOR //
@@ -63,7 +69,7 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
     if (text.length > 0) {
       const formattedText = text.trim().toLocaleLowerCase()
 
-      const filteredBookList = books.filter((book) => {
+      const filterList = booksList.filter((book) => {
         return (
           (book.name.toLocaleLowerCase().includes(formattedText) ||
             book.author.toLocaleLowerCase().includes(formattedText)) &&
@@ -71,13 +77,12 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
         )
       })
 
-      setBooksList(filteredBookList)
+      setBooksFilteredList(filterList)
     } else {
-      setBooksList(books)
+      setBooksFilteredList(booksList)
     }
 
     setSearchInputValue(text)
-    setSelectedCategory('')
   }
 
   return (
@@ -100,7 +105,7 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
         <Categories>
           <Tag
             className={!selectedCategory ? 'active' : ''}
-            onClick={() => setSelectedCategory('')}
+            onClick={() => onSelectAnyCategory('')}
           >
             Tudo
           </Tag>
@@ -109,7 +114,7 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
             <Tag
               key={categoryItem}
               className={selectedCategory === categoryItem ? 'active' : ''}
-              onClick={() => setSelectedCategory(categoryItem)}
+              onClick={() => onSelectAnyCategory(categoryItem)}
             >
               {categoryItem}
             </Tag>
@@ -117,23 +122,43 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
         </Categories>
 
         {/* LISTA DE LIVROS */}
-        <BookList>
-          {booksList &&
-            booksList.map((book, index) => {
-              return (
-                <Card
-                  key={book.id}
-                  name={book.name}
-                  author={book.author}
-                  image={{ width: 108, height: 152, url: book.imageUrl }}
-                  rating={book.average}
-                  isRead={book.ratings.some(
-                    (rate) => rate.userId === data?.user.id,
-                  )}
-                />
-              )
-            })}
-        </BookList>
+        {searchInputValue ? (
+          <BookList>
+            {booksList &&
+              booksFilteredList.map((book) => {
+                return (
+                  <Card
+                    key={book.id}
+                    name={book.name}
+                    author={book.author}
+                    image={{ width: 108, height: 152, url: book.imageUrl }}
+                    rating={book.average}
+                    isRead={book.ratings.some(
+                      (rate) => rate.userId === data?.user.id,
+                    )}
+                  />
+                )
+              })}
+          </BookList>
+        ) : (
+          <BookList>
+            {booksList &&
+              booksList.map((book) => {
+                return (
+                  <Card
+                    key={book.id}
+                    name={book.name}
+                    author={book.author}
+                    image={{ width: 108, height: 152, url: book.imageUrl }}
+                    rating={book.average}
+                    isRead={book.ratings.some(
+                      (rate) => rate.userId === data?.user.id,
+                    )}
+                  />
+                )
+              })}
+          </BookList>
+        )}
       </Main>
     </Container>
   )
@@ -149,6 +174,3 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   }
 }
-
-// 1 - Avaliações - Alterar layout //
-// 1 - Lidos ou não (Usuário conectado) //
