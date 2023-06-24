@@ -1,5 +1,6 @@
 import { Avatar } from '../Avatar'
 import { Rating } from '../Rating'
+
 import {
   CommentContainer,
   Header,
@@ -11,27 +12,50 @@ import {
   BookDescription,
 } from './styles'
 
-export function Comment() {
+export type BookType = {
+  bookId: string
+  author: string
+  name: string
+  imageUrl: string
+}
+
+export type UserType = {
+  userId: string
+  name: string
+  avatar: string
+}
+
+export type RatingType = {
+  id: string
+  rating: number
+  description: string
+  createdAt: string
+  book: BookType
+  user: UserType
+}
+
+interface CommentProps {
+  rating: RatingType
+}
+
+export function Comment({ rating }: CommentProps) {
   return (
     <CommentContainer>
       <Header>
-        <Avatar
-          avatarUrl="https://avatars.githubusercontent.com/u/56278484?v=4.png"
-          username="Rogério Marques"
-        />
+        <Avatar avatarUrl={rating.user.avatar} username={rating.user.name} />
         <User>
-          <p>Rogério Marques</p>
+          <p>{rating.user.name}</p>
           <span>Hoje</span>
         </User>
 
-        <Rating avaliationNumber={4} />
+        <Rating rating={rating.rating} />
       </Header>
 
       <Content>
         <BookImage
-          src={'/images/o-hobbit.png'}
-          alt="O Hobbit"
-          title="O Hobbit"
+          src={rating.book.imageUrl}
+          alt={rating.book.name}
+          title={rating.book.name}
           width={108}
           height={152}
           quality={100}
@@ -39,16 +63,11 @@ export function Comment() {
 
         <BookInfo>
           <BookHeader>
-            <p>O Hobbit</p>
-            <span>J.R.R. Tolkien</span>
+            <p>{rating.book.name}</p>
+            <span>{rating.book.author}</span>
           </BookHeader>
 
-          <BookDescription>
-            Semper et sapien proin vitae nisi. Feugiat neque integer donec et
-            aenean posuere amet ultrices. Cras fermentum id pulvinar varius leo
-            a in. Amet libero pharetra nunc elementum fringilla velit ipsum. Sed
-            vulputate massa velit nibh... ver mais
-          </BookDescription>
+          <BookDescription>{rating.description}</BookDescription>
         </BookInfo>
       </Content>
     </CommentContainer>
