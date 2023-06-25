@@ -1,9 +1,12 @@
-import { useSession } from 'next-auth/react'
 import { GetServerSideProps } from 'next'
-import { api } from '@/lib/axios'
 import Link from 'next/link'
+import { getServerSession } from 'next-auth'
+import { useSession } from 'next-auth/react'
+import { buildNextAuthOptions } from '../api/auth/[...nextauth].api'
 
-import { BookReview } from '@/components/BookCard'
+import { api } from '@/lib/axios'
+
+import { BookReview } from '@/components/BookReview'
 import { Card } from '@/components/Card'
 import { Comment, RatingType } from '@/components/Comment'
 import { Menu } from '@/components/Menu'
@@ -18,14 +21,19 @@ import {
   PopularBooks,
   Content,
 } from './styles'
-import { getServerSession } from 'next-auth'
-import { buildNextAuthOptions } from '../api/auth/[...nextauth].api'
 
 interface HomeProps {
   ratings: RatingType[]
+  rating: RatingType | null
+  popularBooks: {
+    name: string
+    author: string
+    imageUrl: string
+    rating: number
+  }[]
 }
 
-export default function Home({ ratings }: HomeProps) {
+export default function Home({ ratings, rating, popularBooks }: HomeProps) {
   const { status } = useSession()
 
   return (
@@ -47,6 +55,8 @@ export default function Home({ ratings }: HomeProps) {
                   <CaretRight size={16} />
                 </Link>
               </Header>
+
+              <BookReview rating={rating} />
             </SectionContainer>
           )}
 
@@ -75,34 +85,46 @@ export default function Home({ ratings }: HomeProps) {
           </Link>
         </Header>
 
-        {/* <Card image={{ width: 64, height: 94, url: '' }} />
-
-        <Card image={{ width: 64, height: 94, url: '' }} /> */}
+        {popularBooks.map((book) => (
+          <Card
+            key={book.name}
+            image={{ width: 64, height: 94, url: book.imageUrl }}
+            author={book.author}
+            name={book.name}
+            rating={book.rating}
+          />
+        ))}
       </PopularBooks>
     </Container>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  // CARREGANDO AS AVALIAÇÕES MAIS RECENTES PREVIAMENTE //
-  const { ratings } = await api.get('/ratings').then((res) => res.data)
-
-  const data = await api
-    .get(`/ratings/4383f783-6ce1-4f92-b1dd-7a7a693c4aef`)
-    .then((res) => res.data)
-
-  // TODO - Capturar a Sessão do Usuário //
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  // DADOS DO USUÁRIO LOGADO //
   const session = await getServerSession(
-    ctx.req,
-    ctx.res,
-    buildNextAuthOptions(ctx.req, ctx.res),
+    req,
+    res,
+    buildNextAuthOptions(req, res),
   )
 
-  console.log(session)
+  // CARREGANDO AS AVALIAÇÕES MAIS RECENTES PREVIAMENTE //
+  const { ratings } = await api.get(`/ratings`).then((res) => res.data)
+
+  // CARREGANDO A ÚLTIMA AVALIAÇÃO FEITA PELO USUÁRIO //
+  const { rating } = await api
+    .get(`/ratings/${session?.user.id}/last-reading`)
+    .then((res) => res.data)
+
+  // CARREGANDO OS LIVROS MAIS POPULARES BASEADO NA QTD DE AVALIAÇÕES //
+  const { popularBooks } = await api
+    .get('/ratings/popular-books')
+    .then((res) => res.data)
 
   return {
     props: {
       ratings,
+      rating: rating || null,
+      popularBooks,
     },
   }
 }

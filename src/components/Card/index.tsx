@@ -2,7 +2,7 @@ import { Rating } from '../Rating'
 
 import { CardContainer, BookImage, BookInfo, Tag } from './styles'
 
-interface CardProps {
+export interface CardProps {
   name: string
   author: string
   image: {

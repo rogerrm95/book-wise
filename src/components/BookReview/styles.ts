@@ -51,3 +51,15 @@ export const Option = styled('p', {
   color: '$gray400',
   fontSize: '$sm',
 })
+
+export const EmptyResults = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textAlign: 'center',
+
+  width: '100%',
+
+  color: '$gray400',
+  fontSize: '$sm',
+})

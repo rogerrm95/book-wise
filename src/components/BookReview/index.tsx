@@ -1,44 +1,53 @@
 import Image from 'next/image'
 
-import { CardContainer, InfoBox, Header, Description, Option } from './styles'
 import { Rating } from '../Rating'
 
+import { RatingType } from '../Comment'
+import {
+  CardContainer,
+  InfoBox,
+  Header,
+  Description,
+  Option,
+  EmptyResults,
+} from './styles'
+
 interface BookReviewProps {
-  author: string
-  name: string
-  imageUrl: string
-  review: string
+  rating: RatingType | null
 }
 
-export function BookReview({ author, imageUrl, name }: BookReviewProps) {
+export function BookReview({ rating }: BookReviewProps) {
   return (
     <CardContainer>
-      <Image
-        src={imageUrl}
-        alt={name}
-        title={name}
-        width={108}
-        height={152}
-        quality={75}
-      />
+      {!rating ? (
+        <EmptyResults>Sem avaliações cadastradas </EmptyResults>
+      ) : (
+        <>
+          <Image
+            src={rating.book.imageUrl}
+            alt={rating.book.name}
+            title={rating.book.name}
+            width={108}
+            height={152}
+            quality={100}
+          />
 
-      <InfoBox>
-        <Header>
-          <span>Há 2 dias</span>
+          <InfoBox>
+            <Header>
+              <span>Há 2 dias</span>
 
-          <Rating rating={3} />
-        </Header>
+              <Rating rating={3} />
+            </Header>
 
-        <Description>
-          <p>{name}</p>
-          <span>{author}</span>
-        </Description>
+            <Description>
+              <p>{rating.book.name}</p>
+              <span>{rating.book.author}</span>
+            </Description>
 
-        <Option>
-          Nec tempor nunc in egestas. Euismod nisi eleifend at et in sagittis.
-          Penatibus id vestibulum imperdiet a at imperdiet lectu...
-        </Option>
-      </InfoBox>
+            <Option>{rating.description}</Option>
+          </InfoBox>
+        </>
+      )}
     </CardContainer>
   )
 }

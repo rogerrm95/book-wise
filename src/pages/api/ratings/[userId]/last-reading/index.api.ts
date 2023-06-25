@@ -9,9 +9,9 @@ export default async function handler(
     return res.status(405).end()
   }
 
-  const { userId } = String(req.query.userId)
+  const userId = String(req.query.userId)
 
-  const data = await prisma.rating.findMany({
+  const data = await prisma.rating.findFirst({
     orderBy: {
       created_at: 'desc',
     },
@@ -36,7 +36,27 @@ export default async function handler(
     take: 1,
   })
 
-  console.log(data)
+  if (!data) {
+    return res.status(200).json({})
+  }
 
-  return res.status(201).json({})
+  const rating = {
+    id: data.id,
+    rating: data.rate,
+    description: data.description,
+    createdAt: data.created_at,
+    book: {
+      bookId: data.book_id,
+      name: data.book.name,
+      imageUrl: data.book.cover_url,
+      author: data.book.author,
+    },
+    user: {
+      userId: data.user_id,
+      name: data.user.name,
+      avatar: data.user.avatar_url,
+    },
+  }
+
+  return res.status(201).json({ rating })
 }
