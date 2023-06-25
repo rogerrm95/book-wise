@@ -1,14 +1,15 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
 
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google'
 import GitHubProvider, { GithubProfile } from 'next-auth/providers/github'
 
 import { PrismaAdapter } from '@/lib/auth/prisma-adapter'
+import { setCookie } from 'nookies'
 
 export function buildNextAuthOptions(
-  req: NextApiRequest,
-  res: NextApiResponse,
+  req: NextApiRequest | NextPageContext['req'],
+  res: NextApiResponse | NextPageContext['res'],
 ): NextAuthOptions {
   return {
     adapter: PrismaAdapter(req, res),
@@ -56,6 +57,11 @@ export function buildNextAuthOptions(
         }
       },
       async signIn(params) {
+        setCookie({ res }, '@ignitecall:userId', params.user.id, {
+          // Todo cookie necessita de uma data de expiração //
+          maxAge: 60 * 60 * 24 * 7, // 7 days
+          path: '/',
+        })
         return true
       },
     },
