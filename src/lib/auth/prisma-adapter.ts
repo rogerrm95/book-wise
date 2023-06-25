@@ -19,7 +19,7 @@ export function PrismaAdapter(
       })
 
       // COOKIES //
-      setCookie({ res }, '@ignite-book-wise:userId', user.email, {
+      setCookie({ res }, '@ignite-book-wise:userId', createdUser.id, {
         maxAge: 60 * 60 * 7, // 7 DIAS
         path: '/',
       })
