@@ -1,3 +1,14 @@
+import { GetServerSideProps } from 'next'
+import { getServerSession } from 'next-auth'
+import Image from 'next/image'
+import { buildNextAuthOptions } from '@/pages/api/auth/[...nextauth].api'
+
+import { Avatar } from '@/components/Avatar'
+import { Menu } from '@/components/Menu'
+import { PageTitle } from '@/components/PageTitle'
+import { Rating } from '@/components/Rating'
+import { SearchInput } from '@/components/Forms/SearchInput'
+
 import {
   Book,
   BookmarkSimple,
@@ -5,10 +16,6 @@ import {
   User,
   UserList,
 } from '@phosphor-icons/react'
-
-import { Menu } from '@/components/Menu'
-import { PageTitle } from '@/components/PageTitle'
-import { SearchInput } from '@/components/Forms/SearchInput'
 
 import {
   Container,
@@ -27,9 +34,7 @@ import {
   StatusItem,
   StatusDescription,
 } from './styles'
-import Image from 'next/image'
-import { Rating } from '@/components/Rating'
-import { Avatar } from '@/components/Avatar'
+import { api } from '@/lib/axios'
 
 export default function Home() {
   return (
@@ -41,7 +46,12 @@ export default function Home() {
 
         <Content>
           <ReviewSection>
-            <SearchInput placeholder="Buscar livro ou autor" size="full" />
+            <SearchInput
+              placeholder="Buscar livro ou autor"
+              size="full"
+              value={'vazio'}
+              onSearchingChange={() => {}}
+            />
 
             <ReviewsList>
               <ReviewItem>
@@ -63,7 +73,7 @@ export default function Home() {
                         14 Hábitos de Desenvolvedores Altamente Produtivos
                       </h2>
                       <span>Aditya Bhargava</span>
-                      <Rating avaliationNumber={2} />
+                      <Rating rating={2} />
                     </BookDescription>
                   </BookInfo>
 
@@ -100,7 +110,7 @@ export default function Home() {
                         14 Hábitos de Desenvolvedores Altamente Produtivos
                       </h2>
                       <span>Aditya Bhargava</span>
-                      <Rating avaliationNumber={3} />
+                      <Rating rating={2} />
                     </BookDescription>
                   </BookInfo>
 
@@ -172,4 +182,33 @@ export default function Home() {
       </Main>
     </Container>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  // DADOS DO USUÁRIO LOGADO //
+  const session = await getServerSession(
+    req,
+    res,
+    buildNextAuthOptions(req, res),
+  )
+
+  // APENAS USUÁRIOS AUTENTICADOS PODEM VISUALIZAR ESTA PÁGINA //
+  if (!session) {
+    return {
+      props: {},
+      redirect: {
+        destination: '/',
+      },
+    }
+  }
+
+  const data = await api
+    .get(`/users/metrics/${session.user.id}`)
+    .then((res) => res.data)
+
+  console.log(data)
+
+  return {
+    props: {},
+  }
 }

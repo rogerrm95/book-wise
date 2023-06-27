@@ -51,7 +51,7 @@ export function Menu() {
 
         {status === 'authenticated' && (
           <MenuLink
-            href={`/profile/${data.user.email}`}
+            href={`/profile/${data.user.id}`}
             className={isRouteActive.includes('profile') ? 'active' : ''}
           >
             <User size={24} />
