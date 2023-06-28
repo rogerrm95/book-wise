@@ -2,6 +2,7 @@ import { GetServerSideProps } from 'next'
 import { getServerSession } from 'next-auth'
 import Image from 'next/image'
 import { buildNextAuthOptions } from '@/pages/api/auth/[...nextauth].api'
+import { api } from '@/lib/axios'
 
 import { Avatar } from '@/components/Avatar'
 import { Menu } from '@/components/Menu'
@@ -34,9 +35,17 @@ import {
   StatusItem,
   StatusDescription,
 } from './styles'
-import { api } from '@/lib/axios'
 
-export default function Home() {
+interface HomeProps {
+  metrics: {
+    totalPages: number
+    totalAuthors: number
+    ratedBooks: number
+    categoryMostRead: string | null
+  }
+}
+
+export default function Home({ metrics }: HomeProps) {
   return (
     <Container>
       <Menu />
@@ -148,7 +157,7 @@ export default function Home() {
               <StatusItem>
                 <Book size={32} />
                 <StatusDescription>
-                  <strong>3853</strong>
+                  <strong>{metrics.totalPages}</strong>
                   <span>Páginas lidas</span>
                 </StatusDescription>
               </StatusItem>
@@ -156,7 +165,7 @@ export default function Home() {
               <StatusItem>
                 <Books size={32} />
                 <StatusDescription>
-                  <strong>10</strong>
+                  <strong>{metrics.ratedBooks}</strong>
                   <span>Livros avaliados</span>
                 </StatusDescription>
               </StatusItem>
@@ -164,7 +173,7 @@ export default function Home() {
               <StatusItem>
                 <UserList size={32} />
                 <StatusDescription>
-                  <strong>8</strong>
+                  <strong>{metrics.totalAuthors}</strong>
                   <span>Autores lidos</span>
                 </StatusDescription>
               </StatusItem>
@@ -172,7 +181,9 @@ export default function Home() {
               <StatusItem>
                 <BookmarkSimple size={32} />
                 <StatusDescription>
-                  <strong>Computação</strong>
+                  <strong>
+                    {metrics.categoryMostRead ? metrics.categoryMostRead : '-'}
+                  </strong>
                   <span>Categoria mais lida</span>
                 </StatusDescription>
               </StatusItem>
@@ -202,13 +213,15 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     }
   }
 
-  const data = await api
+  const { userMetrics } = await api
     .get(`/users/metrics/${session.user.id}`)
     .then((res) => res.data)
 
-  console.log(data)
+  console.log(userMetrics)
 
   return {
-    props: {},
+    props: {
+      metrics: userMetrics,
+    },
   }
 }

@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { itemMostOften } from '@/utils/itensMostOften'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(
@@ -13,7 +14,7 @@ export default async function handler(
 
   const data = await prisma.rating.findMany({
     where: {
-      user_id: 'c296c6c0-5c59-40dd-aa8a-ef2b015b7502',
+      user_id: userId,
     },
     include: {
       book: {
@@ -31,7 +32,16 @@ export default async function handler(
     },
   })
 
-  // console.log('METRICAS:', data)
+  if (data.length === 0) {
+    const userMetrics = {
+      totalPages: 0,
+      totalAuthors: 0,
+      ratedBooks: 0,
+      FavoriteCategory: null,
+    }
+
+    return res.status(201).json({ userMetrics })
+  }
 
   // TOTAL DE PÁGINAS LIDAS //
   const totalPages = data.reduce((acc, book) => {
@@ -47,23 +57,22 @@ export default async function handler(
   const authorsUniqueList = new Set(authorsList).size
 
   // CATEGORIA MAIS LIDA //
-  const categoriesGroup = data.map((book) => book.book.categories)
+  const ratings = data
+    .map((rating) => {
+      return rating.book.categories.map((category) => category.category.name)
+    })
+    .toString()
+    .split(',')
+    .sort()
 
-  const categoriesList = categoriesGroup.map((category) => {
-    return category.map((i) => i.category.name)
-  })
+  const categoryMostOften = itemMostOften(ratings)
 
-  // Continuar daqui //
-  // RANKEAR AS CATEGORIAS MAIS LIDAS //
-  const categories = []
-
-  console.log(categoriesList)
-
+  // DADOS FINAIS //
   const userMetrics = {
     totalPages,
     totalAuthors: authorsUniqueList,
     ratedBooks: authorsList.length,
-    FavoriteCategory: null,
+    categoryMostRead: categoryMostOften || null,
   }
 
   return res.status(201).json({ userMetrics })
