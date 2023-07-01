@@ -11,8 +11,11 @@ export function Avatar({ avatarUrl, username, size = 'md' }: AvatarProps) {
     <AvatarContainer
       src={avatarUrl}
       title={username}
-      alt={username}
       size={size}
+      onError={({ currentTarget }) => {
+        currentTarget.onerror = null
+        currentTarget.src = '/images/user-default.png'
+      }}
     />
   )
 }
