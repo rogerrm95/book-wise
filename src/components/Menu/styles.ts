@@ -12,7 +12,7 @@ export const MenuContainer = styled('aside', {
   borderRadius: '$md',
 
   maxHeight: '900px',
-  height: '100%',
+  height: '100vh',
 })
 
 export const MenuList = styled('div', {

@@ -1,7 +1,10 @@
+import { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 import { GetServerSideProps } from 'next'
 import { getServerSession } from 'next-auth'
-import Image from 'next/image'
 import { buildNextAuthOptions } from '@/pages/api/auth/[...nextauth].api'
+
 import { api } from '@/lib/axios'
 
 import { Avatar } from '@/components/Avatar'
@@ -14,6 +17,7 @@ import {
   Book,
   BookmarkSimple,
   Books,
+  Spinner,
   User,
   UserList,
 } from '@phosphor-icons/react'
@@ -34,18 +38,96 @@ import {
   ProfileStatus,
   StatusItem,
   StatusDescription,
+  EmptyResults,
+  LoadingSpinner,
 } from './styles'
 
-interface HomeProps {
-  metrics: {
-    totalPages: number
-    totalAuthors: number
-    ratedBooks: number
-    categoryMostRead: string | null
+type MetricsType = {
+  totalPages: number
+  totalAuthors: number
+  ratedBooks: number
+  categoryMostRead: string | null
+}
+
+type RatingType = {
+  id: string
+  rate: number
+  description: string
+  createdAt: string
+  book: {
+    name: string
+    author: string
+    image: string
   }
 }
 
-export default function Home({ metrics }: HomeProps) {
+type InfoType = {
+  name: string
+  avatar: string
+  createdAt: string
+  ratings: RatingType[]
+}
+
+export default function Home() {
+  const { data } = useSession()
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [bookOrAuthorInputText, setBookOrAuthorInputText] = useState('')
+  const [userMetrics, setUserMetrics] = useState({} as MetricsType)
+  const [userInfo, setUserInfo] = useState({
+    avatar: '',
+    createdAt: '',
+    name: '',
+    ratings: [],
+  } as InfoType)
+  // VARIÁVEL AUXILIAR - ATUA DIRETAMENTE NOS FILTROS //
+  const [ratings, setRatings] = useState<RatingType[]>([] as RatingType[])
+
+  // CHAMADA API PARA BUSCAR OS DADOS DO USUÁRIO / /
+  useEffect(() => {
+    async function loadUserInfoAndMetrics() {
+      if (data) {
+        setIsLoading(true)
+
+        const { user } = await api
+          .get(`/users/metrics/${data?.user.id}`)
+          .then((res) => res.data)
+
+        setUserMetrics(user.metrics)
+        setUserInfo(user.info)
+        setRatings(user.info.ratings)
+      }
+
+      setIsLoading(false)
+    }
+
+    loadUserInfoAndMetrics()
+  }, [data?.user.id, data])
+
+  // FUNÇÃO - BUSCAR CORRESPONDÊNCIA //
+  // FILTRAR POR NOME DE LIVRO OU NOME DE AUTOR //
+  function onSearchingBookOrAuthor(text: string) {
+    if (text.length > 0) {
+      const formattedText = text.trim().toLocaleLowerCase()
+
+      const filteredList = userInfo.ratings.filter((rating) => {
+        return (
+          (rating.book.name.toLocaleLowerCase().includes(formattedText) ||
+            rating.book.author.toLocaleLowerCase().includes(formattedText)) &&
+          rating
+        )
+      })
+
+      setRatings(filteredList)
+    } else {
+      setRatings(userInfo.ratings)
+    }
+
+    setBookOrAuthorInputText(text)
+  }
+
+  const isRatingListEmpty = userInfo.ratings.length === 0
+
   return (
     <Container>
       <Menu />
@@ -58,136 +140,106 @@ export default function Home({ metrics }: HomeProps) {
             <SearchInput
               placeholder="Buscar livro ou autor"
               size="full"
-              value={'vazio'}
-              onSearchingChange={() => {}}
+              value={bookOrAuthorInputText}
+              onSearchingChange={(e) => onSearchingBookOrAuthor(e)}
             />
 
             <ReviewsList>
-              <ReviewItem>
-                <span>Há 2 dias</span>
+              {!isLoading ? (
+                !isRatingListEmpty ? (
+                  ratings.map((rating) => (
+                    <ReviewItem key={rating.id}>
+                      <span>Há 2 dias</span>
 
-                <ReviewBox>
-                  <BookInfo>
-                    <Image
-                      src={
-                        '/images/14-habitos-de-desenvolvedores-altamente-produtivos.png'
-                      }
-                      width={98}
-                      height={134}
-                      alt="TITULO"
-                    />
+                      <ReviewBox>
+                        <BookInfo>
+                          <Image
+                            src={rating.book.image}
+                            width={98}
+                            height={134}
+                            alt={rating.book.name}
+                          />
 
-                    <BookDescription>
-                      <h2>
-                        14 Hábitos de Desenvolvedores Altamente Produtivos
-                      </h2>
-                      <span>Aditya Bhargava</span>
-                      <Rating rating={2} />
-                    </BookDescription>
-                  </BookInfo>
+                          <BookDescription>
+                            <h2>{rating.book.name}</h2>
+                            <span>{rating.book.author}</span>
+                            <Rating rating={rating.rate} />
+                          </BookDescription>
+                        </BookInfo>
 
-                  <BookReview>
-                    Tristique massa sed enim lacinia odio. Congue ut faucibus
-                    nunc vitae non. Nam feugiat vel morbi viverra vitae mi.
-                    Vitae fringilla ut et suspendisse enim suspendisse vitae.
-                    Leo non eget lacus sollicitudin tristique pretium quam.
-                    Mollis et luctus amet sed convallis varius massa sagittis.
-                    Proin sed proin at leo quis ac sem. Nam donec accumsan
-                    curabitur amet tortor quam sit. Bibendum enim sit dui lorem
-                    urna amet elit rhoncus ut. Aliquet euismod vitae ut turpis.
-                    Aliquam amet integer pellentesque.
-                  </BookReview>
-                </ReviewBox>
-              </ReviewItem>
-
-              <ReviewItem>
-                <span>Há 3 semanas</span>
-
-                <ReviewBox>
-                  <BookInfo>
-                    <Image
-                      src={
-                        '/images/14-habitos-de-desenvolvedores-altamente-produtivos.png'
-                      }
-                      width={98}
-                      height={134}
-                      alt="TITULO"
-                    />
-
-                    <BookDescription>
-                      <h2>
-                        14 Hábitos de Desenvolvedores Altamente Produtivos
-                      </h2>
-                      <span>Aditya Bhargava</span>
-                      <Rating rating={2} />
-                    </BookDescription>
-                  </BookInfo>
-
-                  <BookReview>
-                    Tristique massa sed enim lacinia odio. Congue ut faucibus
-                    nunc vitae non. Nam feugiat vel morbi viverra vitae mi.
-                    Vitae fringilla ut et suspendisse enim suspendisse vitae.
-                    Leo non eget lacus sollicitudin tristique pretium quam.
-                    Mollis et luctus amet sed convallis varius massa sagittis.
-                    Proin sed proin at leo quis ac sem. Nam donec accumsan
-                    curabitur amet tortor quam sit. Bibendum enim sit dui lorem
-                    urna amet elit rhoncus ut. Aliquet euismod vitae ut turpis.
-                    Aliquam amet integer pellentesque.
-                  </BookReview>
-                </ReviewBox>
-              </ReviewItem>
+                        <BookReview>{rating.description}</BookReview>
+                      </ReviewBox>
+                    </ReviewItem>
+                  ))
+                ) : (
+                  <EmptyResults>Sem avaliações cadastradas</EmptyResults>
+                )
+              ) : (
+                <div>Carregando...</div>
+              )}
             </ReviewsList>
           </ReviewSection>
 
           <ProfileBox>
-            <ProfileHeader>
-              <Avatar
-                avatarUrl="https://avatars.githubusercontent.com/u/56278484?v=4.png"
-                username="Rogério"
-                size="xl"
-              />
+            {!isLoading ? (
+              <>
+                <ProfileHeader>
+                  <Avatar
+                    avatarUrl={userInfo.avatar}
+                    username={userInfo.name}
+                    size="xl"
+                  />
 
-              <h2>Rogério Marques</h2>
-              <span>Membro desde 2019</span>
-            </ProfileHeader>
+                  <h2>{userInfo.name}</h2>
+                  <span>Membro desde 2019</span>
+                </ProfileHeader>
 
-            <hr />
+                <hr />
 
-            <ProfileStatus>
-              <StatusItem>
-                <Book size={32} />
-                <StatusDescription>
-                  <strong>{metrics.totalPages}</strong>
-                  <span>Páginas lidas</span>
-                </StatusDescription>
-              </StatusItem>
+                <ProfileStatus>
+                  <StatusItem>
+                    <Book size={32} />
+                    <StatusDescription>
+                      <strong>{userMetrics.totalPages}</strong>
+                      <span>Páginas lidas</span>
+                    </StatusDescription>
+                  </StatusItem>
 
-              <StatusItem>
-                <Books size={32} />
-                <StatusDescription>
-                  <strong>{metrics.ratedBooks}</strong>
-                  <span>Livros avaliados</span>
-                </StatusDescription>
-              </StatusItem>
+                  <StatusItem>
+                    <Books size={32} />
+                    <StatusDescription>
+                      <strong>{userMetrics.ratedBooks}</strong>
+                      <span>Livros avaliados</span>
+                    </StatusDescription>
+                  </StatusItem>
 
-              <StatusItem>
-                <UserList size={32} />
-                <StatusDescription>
-                  <strong>{metrics.totalAuthors}</strong>
-                  <span>Autores lidos</span>
-                </StatusDescription>
-              </StatusItem>
+                  <StatusItem>
+                    <UserList size={32} />
+                    <StatusDescription>
+                      <strong>{userMetrics.totalAuthors}</strong>
+                      <span>Autores lidos</span>
+                    </StatusDescription>
+                  </StatusItem>
 
-              <StatusItem>
-                <BookmarkSimple size={32} />
-                <StatusDescription>
-                  <strong>
-                    {metrics.categoryMostRead ? metrics.categoryMostRead : '-'}
-                  </strong>
-                  <span>Categoria mais lida</span>
-                </StatusDescription>
-              </StatusItem>
-            </ProfileStatus>
+                  <StatusItem>
+                    <BookmarkSimple size={32} />
+                    <StatusDescription>
+                      <strong>
+                        {userMetrics.categoryMostRead
+                          ? userMetrics.categoryMostRead
+                          : '-'}
+                      </strong>
+                      <span>Categoria mais lida</span>
+                    </StatusDescription>
+                  </StatusItem>
+                </ProfileStatus>
+              </>
+            ) : (
+              <LoadingSpinner>
+                <Spinner size={32} />
+                Carregando...
+              </LoadingSpinner>
+            )}
           </ProfileBox>
         </Content>
       </Main>
@@ -195,33 +247,25 @@ export default function Home({ metrics }: HomeProps) {
   )
 }
 
+// GET SERVER SIDE //
+// GARANTINDO QUE APENAS USUÁRIOS LOGADOS VERÃO ESTÁ PÁGINA //
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  // DADOS DO USUÁRIO LOGADO //
   const session = await getServerSession(
     req,
     res,
     buildNextAuthOptions(req, res),
   )
 
-  // APENAS USUÁRIOS AUTENTICADOS PODEM VISUALIZAR ESTA PÁGINA //
   if (!session) {
     return {
-      props: {},
       redirect: {
+        permanent: true,
         destination: '/',
       },
     }
   }
 
-  const { userMetrics } = await api
-    .get(`/users/metrics/${session.user.id}`)
-    .then((res) => res.data)
-
-  console.log(userMetrics)
-
   return {
-    props: {
-      metrics: userMetrics,
-    },
+    props: {},
   }
 }

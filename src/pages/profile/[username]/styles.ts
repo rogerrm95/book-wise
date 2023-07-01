@@ -1,4 +1,4 @@
-import { styled } from '@stitches/react'
+import { keyframes, styled } from '@stitches/react'
 
 import { RatingContainer } from '@/components/Rating/styles'
 
@@ -32,6 +32,7 @@ export const ReviewSection = styled('section', {
   flexDirection: 'column',
   gap: '$8',
   maxWidth: '624px',
+  flex: 2,
 })
 
 export const ReviewsList = styled('div', {
@@ -94,11 +95,16 @@ export const BookReview = styled('p', {
 // PERFIL //
 
 export const ProfileBox = styled('div', {
+  flex: 1,
+
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   gap: '$8',
+
   width: '100%',
+  maxHeight: '600px',
+  height: '100vh',
 
   paddingLeft: '$2',
   borderLeft: '1px solid $colors$gray700',
@@ -123,6 +129,12 @@ export const ProfileHeader = styled('div', {
   h2: {
     marginTop: '$5',
     fontSize: '$xl',
+
+    overflow: 'hidden',
+    display: '-webkit-box',
+    '-webkit-box-orient': 'vertical',
+    '-webkit-line-clamp': 1,
+    whiteSpace: 'pre-wrap',
   },
 
   span: {
@@ -155,5 +167,53 @@ export const StatusDescription = styled('div', {
   span: {
     color: '$gray400',
     fontSize: '$sm',
+  },
+})
+
+export const EmptyResults = styled('div', {
+  display: 'flex',
+  justifyContent: 'center',
+  gap: '$6',
+  padding: '$5 $6',
+
+  textAlign: 'center',
+  color: '$gray400',
+  fontSize: '$sm',
+
+  backgroundColor: '$gray600',
+  borderRadius: '$md',
+  border: '1px solid $colors$gray600',
+  transition: 'all 0.2s',
+
+  '&:hover': {
+    borderColor: '$gray500',
+    boxShadow: '0px 0px 8px 1px $colors$gray600',
+  },
+})
+
+const loadingAnimation = keyframes({
+  '0%': {
+    opacity: 0.25,
+    transform: 'rotate(0deg)',
+  },
+  '100%': {
+    opacity: 1,
+    transform: 'rotate(360deg)',
+  },
+})
+
+export const LoadingSpinner = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '$3',
+
+  margin: 'auto',
+  fontSize: '$sm',
+  color: '$gray300',
+
+  svg: {
+    animation: `${loadingAnimation} 3s infinite 0s`,
   },
 })

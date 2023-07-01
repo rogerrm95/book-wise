@@ -12,19 +12,32 @@ export default async function handler(
 
   const userId = String(req.query.userId)
 
-  const data = await prisma.rating.findMany({
+  if (!userId) {
+    return res.status(400).json({ message: 'User ID not found' })
+  }
+
+  const response = await prisma.user.findFirstOrThrow({
     where: {
-      user_id: userId,
+      id: userId,
     },
     include: {
-      book: {
+      ratings: {
         select: {
-          author: true,
-          total_pages: true,
-          name: true,
-          categories: {
+          id: true,
+          rate: true,
+          created_at: true,
+          description: true,
+          book: {
             select: {
-              category: true,
+              name: true,
+              author: true,
+              cover_url: true,
+              total_pages: true,
+              categories: {
+                select: {
+                  category: true,
+                },
+              },
             },
           },
         },
@@ -32,24 +45,48 @@ export default async function handler(
     },
   })
 
-  if (data.length === 0) {
+  const userInfo = {
+    name: response.name,
+    avatar: response.avatar_url,
+    createdAt: response.created_at,
+    ratings: response.ratings.map((rating) => {
+      return {
+        id: rating.id,
+        rate: rating.rate,
+        description: rating.description,
+        createdAt: rating.created_at,
+        book: {
+          name: rating.book.name,
+          author: rating.book.author,
+          image: rating.book.cover_url,
+        },
+      }
+    }),
+  }
+
+  if (response.ratings.length === 0) {
     const userMetrics = {
       totalPages: 0,
       totalAuthors: 0,
       ratedBooks: 0,
-      FavoriteCategory: null,
+      categoryMostRead: null,
     }
 
-    return res.status(201).json({ userMetrics })
+    return res.status(201).json({
+      user: {
+        metrics: userMetrics,
+        info: userInfo,
+      },
+    })
   }
 
   // TOTAL DE PÁGINAS LIDAS //
-  const totalPages = data.reduce((acc, book) => {
+  const totalPages = response.ratings.reduce((acc, book) => {
     return (acc += book.book.total_pages)
   }, 0)
 
   // TOTAL DE LIVROS AVALIADOS //
-  const authorsList = data.map((book) => {
+  const authorsList = response.ratings.map((book) => {
     return book.book.author
   })
 
@@ -57,7 +94,7 @@ export default async function handler(
   const authorsUniqueList = new Set(authorsList).size
 
   // CATEGORIA MAIS LIDA //
-  const ratings = data
+  const ratings = response.ratings
     .map((rating) => {
       return rating.book.categories.map((category) => category.category.name)
     })
@@ -75,5 +112,10 @@ export default async function handler(
     categoryMostRead: categoryMostOften || null,
   }
 
-  return res.status(201).json({ userMetrics })
+  const user = {
+    metrics: userMetrics,
+    info: userInfo,
+  }
+
+  return res.status(201).json({ user })
 }
