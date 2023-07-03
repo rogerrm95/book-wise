@@ -51,7 +51,5 @@ export default async function handler(
     }
   })
 
-  console.log(ratings)
-
   return res.status(201).json({ ratings })
 }

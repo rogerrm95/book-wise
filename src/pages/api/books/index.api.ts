@@ -56,7 +56,5 @@ export default async function handler(
     }
   }) as any
 
-  console.log(books[8])
-
   return res.json({ total, books })
 }
