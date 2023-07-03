@@ -59,7 +59,7 @@ export function buildNextAuthOptions(
       async signIn(params) {
         setCookie({ res }, '@ignitecall:userId', params.user.id, {
           // Todo cookie necessita de uma data de expiração //
-          maxAge: 60 * 60 * 24 * 7, // 7 days
+          maxAge: 60 * 60 * 24 * 1, // 1 days
           path: '/',
         })
         return true
