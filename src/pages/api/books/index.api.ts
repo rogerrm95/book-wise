@@ -46,6 +46,7 @@ export default async function handler(
       imageUrl: book.cover_url,
       categories: book.categories.map((category) => category.category.name),
       average: Number(average),
+      totalPages: book.total_pages,
       ratings: book.ratings.map((rating) => {
         return {
           id: rating.id,
@@ -54,7 +55,7 @@ export default async function handler(
         }
       }),
     }
-  }) as any
+  })
 
   return res.json({ total, books })
 }
