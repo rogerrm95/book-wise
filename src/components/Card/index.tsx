@@ -1,8 +1,9 @@
+import { HTMLAttributes } from 'react'
 import { Rating } from '../Rating'
 
 import { CardContainer, BookImage, BookInfo, Tag } from './styles'
 
-export interface CardProps {
+export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   name: string
   author: string
   image: {
@@ -11,7 +12,9 @@ export interface CardProps {
     url: string
   }
   rating: number
+  amountRatings?: number
   isRead?: boolean
+  disabled?: boolean
 }
 
 export function Card({
@@ -19,10 +22,13 @@ export function Card({
   author,
   name,
   rating,
+  amountRatings,
   isRead = false,
+  disabled = false,
+  ...rest
 }: CardProps) {
   return (
-    <CardContainer>
+    <CardContainer status={disabled ? 'disabled' : 'default'} {...rest}>
       <BookImage
         src={`${image.url}`}
         alt={name}
@@ -37,6 +43,7 @@ export function Card({
         <span>{author}</span>
 
         <Rating rating={rating} />
+        {amountRatings && <span>{`Avaliações: ${amountRatings}`}</span>}
       </BookInfo>
 
       {isRead && <Tag>LIDO</Tag>}

@@ -7,17 +7,32 @@ export const CardContainer = styled('div', {
   gap: '$5',
   padding: '1.125rem 1.25rem',
   position: 'relative',
-
-  backgroundColor: '$gray700',
-  border: '1px solid $gray700',
-  borderRadius: '$md',
-
-  transition: 'all 0.3s',
-  cursor: 'pointer',
   overflow: 'hidden',
 
-  '&:hover': {
-    borderColor: '$gray600',
+  backgroundColor: '$gray700',
+
+  variants: {
+    status: {
+      default: {
+        border: '1px solid $gray700',
+        borderRadius: '$md',
+
+        transition: 'all 0.3s',
+        cursor: 'pointer',
+
+        '&:hover': {
+          borderColor: '$gray600',
+        },
+      },
+      disabled: {
+        cursor: 'default',
+        borderColor: '$gray700',
+
+        '& span:last-child': {
+          marginTop: '0.25rem',
+        },
+      },
+    },
   },
 })
 
