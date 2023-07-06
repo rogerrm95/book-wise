@@ -16,9 +16,23 @@ export const Content = styled(Dialog.Content, {
   height: '100%',
 
   backgroundColor: '$gray800',
+
   display: 'flex',
   flexDirection: 'column',
   padding: '1.5rem 3rem',
+  gap: '$10',
+})
+
+export const CloseButton = styled(Dialog.Close, {
+  marginLeft: 'auto',
+  color: '$gray400',
+  cursor: 'pointer',
+
+  transition: 'all 0.3s',
+
+  '&:hover': {
+    opacity: 0.7,
+  },
 })
 
 export const BookDetails = styled('div', {
@@ -69,9 +83,9 @@ export const AboutItem = styled('div', {
 export const Ratings = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  gap: '1rem',
+  gap: '$4',
 
-  header: {
+  '& > header': {
     display: 'flex',
     justifyContent: 'space-between',
 
@@ -84,6 +98,12 @@ export const Ratings = styled('div', {
       color: '$purple100',
       fontWeight: '$bold',
       fontSize: '$sm',
+      cursor: 'pointer',
+      transition: 'all 0.3s',
+
+      '&:hover': {
+        opacity: 0.7,
+      },
     },
   },
 

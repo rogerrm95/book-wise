@@ -56,7 +56,7 @@ export default function Home({ ratings, rating, popularBooks }: HomeProps) {
                 </Link>
               </Header>
 
-              <BookReview rating={rating} />
+              {/* <BookReview rating={rating} /> */}
             </SectionContainer>
           )}
 
@@ -68,7 +68,7 @@ export default function Home({ ratings, rating, popularBooks }: HomeProps) {
 
             {ratings.length > 0 &&
               ratings.map((rating) => (
-                <Comment key={rating.id} rating={rating} />
+                <BookReview key={rating.id} rating={rating} />
               ))}
           </SectionContainer>
         </Content>

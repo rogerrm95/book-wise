@@ -4,7 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { Card } from '@/components/Card'
 import { Comment, RatingType } from '@/components/Comment'
 
-import { BookOpen, BookmarkSimple } from '@phosphor-icons/react'
+import { BookOpen, BookmarkSimple, X } from '@phosphor-icons/react'
 
 import {
   Content,
@@ -13,6 +13,7 @@ import {
   BookAbout,
   AboutItem,
   Ratings,
+  CloseButton,
 } from './styles'
 import { useEffect, useState } from 'react'
 
@@ -41,7 +42,6 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
         .get(`/ratings/book/${bookId}`)
         .then((res) => res.data)
 
-      console.log(ratings)
       setRatings(ratings)
     }
 
@@ -55,12 +55,17 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
       <Overlay />
 
       <Content>
+        <CloseButton>
+          <X size={24} weight="bold" />
+        </CloseButton>
+
         <BookDetails>
           <Card
             author={book.author}
             image={{ url: book.imageUrl, height: 242, width: 170 }}
             name={book.name}
             rating={book.average}
+            amountRatings={ratings.length}
             disabled
           />
 
@@ -84,6 +89,11 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
         </BookDetails>
 
         <Ratings>
+          <header>
+            <span>Avaliações</span>
+            <button>Avaliar</button>
+          </header>
+
           {ratings.length !== 0 &&
             ratings.map((rating) => (
               <Comment key={rating.id} rating={rating} />
