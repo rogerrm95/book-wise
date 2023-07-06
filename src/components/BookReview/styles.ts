@@ -1,55 +1,73 @@
+import Image from 'next/image'
 import { styled } from '@stitches/react'
 
 export const CardContainer = styled('div', {
-  display: 'flex',
-  gap: '$6',
-  padding: '$5 $6',
+  padding: '1.5rem',
 
-  backgroundColor: '$gray600',
-  borderRadius: '$md',
-  border: '1px solid $colors$gray600',
-  transition: 'all 0.2s',
-
-  '&:hover': {
-    borderColor: '$gray500',
-    boxShadow: '0px 0px 8px 1px $colors$gray600',
-  },
-})
-
-export const InfoBox = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  gap: '$3',
+  gap: '$5',
 
-  span: {
-    color: 'gray300',
-    fontSize: '$sm',
-  },
+  backgroundColor: '$gray700',
+  borderRadius: '$md',
 })
-export const Header = styled('div', {
-  display: 'flex',
-  justifyContent: 'space-between',
+
+export const Header = styled('header', {
+  display: 'grid',
+  gridTemplateColumns: '40px 1fr 96px',
+  alignItems: 'center',
   gap: '$4',
 })
 
-export const Description = styled('div', {
-  display: 'block',
-
-  p: {
-    color: '$gray100',
-    fontWeight: '$bold',
-  },
+export const User = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
 
   span: {
     color: '$gray400',
     fontSize: '$sm',
   },
 })
-export const Option = styled('p', {
-  marginTop: '$3',
 
-  color: '$gray400',
+export const Content = styled('div', {
+  display: 'flex',
+  gap: '$5',
+})
+
+export const BookImage = styled(Image, {
+  borderRadius: '$sm',
+})
+
+export const BookInfo = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '$5',
+})
+
+export const BookHeader = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+
+  p: {
+    fontWeight: '$bold',
+  },
+
+  span: {
+    fontSize: '$sm',
+    color: '$gray400',
+  },
+})
+
+export const BookDescription = styled('p', {
+  color: '$gray300',
   fontSize: '$sm',
+
+  overflow: 'hidden',
+  display: '-webkit-box',
+  '-webkit-box-orient': 'vertical',
+  '-webkit-line-clamp': 3,
+  whiteSpace: 'pre-wrap',
 })
 
 export const EmptyResults = styled('div', {

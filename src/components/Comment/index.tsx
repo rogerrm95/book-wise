@@ -1,16 +1,7 @@
 import { Avatar } from '../Avatar'
 import { Rating } from '../Rating'
 
-import {
-  CommentContainer,
-  Header,
-  User,
-  Content,
-  BookImage,
-  BookInfo,
-  BookHeader,
-  BookDescription,
-} from './styles'
+import { CommentContainer, Header, User, Content } from './styles'
 
 export type BookType = {
   bookId: string
@@ -30,7 +21,6 @@ export type RatingType = {
   rating: number
   description: string
   createdAt: string
-  book: BookType
   user: UserType
 }
 
@@ -51,25 +41,7 @@ export function Comment({ rating }: CommentProps) {
         <Rating rating={rating.rating} />
       </Header>
 
-      <Content>
-        <BookImage
-          src={rating.book.imageUrl}
-          alt={rating.book.name}
-          title={rating.book.name}
-          width={108}
-          height={152}
-          quality={100}
-        />
-
-        <BookInfo>
-          <BookHeader>
-            <p>{rating.book.name}</p>
-            <span>{rating.book.author}</span>
-          </BookHeader>
-
-          <BookDescription>{rating.description}</BookDescription>
-        </BookInfo>
-      </Content>
+      <Content>{rating.description}</Content>
     </CommentContainer>
   )
 }

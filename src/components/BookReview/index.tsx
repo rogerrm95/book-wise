@@ -1,51 +1,82 @@
-import Image from 'next/image'
-
+import { Avatar } from '../Avatar'
 import { Rating } from '../Rating'
 
-import { RatingType } from '../Comment'
 import {
   CardContainer,
-  InfoBox,
   Header,
-  Description,
-  Option,
+  User,
+  Content,
+  BookInfo,
+  BookDescription,
+  BookHeader,
+  BookImage,
   EmptyResults,
 } from './styles'
 
+export type BookType = {
+  bookId: string
+  author: string
+  name: string
+  imageUrl: string
+}
+
+export type UserType = {
+  userId: string
+  name: string
+  avatar: string
+}
+
+export type RatingType = {
+  id: string
+  rating: number
+  description: string
+  createdAt: string
+  user: UserType
+  book: BookType
+}
+
 interface BookReviewProps {
-  rating: RatingType | null
+  rating: RatingType
 }
 
 export function BookReview({ rating }: BookReviewProps) {
   return (
     <CardContainer>
       {!rating ? (
-        <EmptyResults>Sem avaliações cadastradas </EmptyResults>
+        <EmptyResults>Sem avaliações cadastradas</EmptyResults>
       ) : (
         <>
-          <Image
-            src={rating.book.imageUrl}
-            alt={rating.book.name}
-            title={rating.book.name}
-            width={108}
-            height={152}
-            quality={100}
-          />
+          {' '}
+          <Header>
+            <Avatar
+              avatarUrl={rating.user.avatar}
+              username={rating.user.name}
+            />
+            <User>
+              <p>{rating.user.name}</p>
+              <span>Hoje</span>
+            </User>
+            <Rating rating={rating.rating} />
+          </Header>
+          <Content>
+            <BookImage
+              src={rating.book.imageUrl}
+              alt={rating.book.name}
+              title={rating.book.name}
+              width={108}
+              height={152}
+              quality={100}
+            />
 
-          <InfoBox>
-            <Header>
-              <span>Há 2 dias</span>
+            <BookInfo>
+              <BookHeader>
+                <p>{rating.book.name}</p>
+                <span>{rating.book.author}</span>
+              </BookHeader>
 
-              <Rating rating={3} />
-            </Header>
-
-            <Description>
-              <p>{rating.book.name}</p>
-              <span>{rating.book.author}</span>
-            </Description>
-
-            <Option>{rating.description}</Option>
-          </InfoBox>
+              <BookDescription>{rating.description}</BookDescription>
+            </BookInfo>
+          </Content>
         </>
       )}
     </CardContainer>
