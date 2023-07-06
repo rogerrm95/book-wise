@@ -108,11 +108,17 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   )
 
   // CARREGANDO AS AVALIAÇÕES MAIS RECENTES PREVIAMENTE //
-  const { ratings } = await api.get(`/ratings`).then((res) => res.data)
+  const { ratings } = await api
+    .get(`/ratings`, {
+      params: {
+        take: 3,
+      },
+    })
+    .then((res) => res.data)
 
   // CARREGANDO A ÚLTIMA AVALIAÇÃO FEITA PELO USUÁRIO //
   const { rating } = await api
-    .get(`/ratings/${session?.user.id}/last-reading`)
+    .get(`/ratings/user/${session?.user.id}/last-reading`)
     .then((res) => res.data)
 
   // CARREGANDO OS LIVROS MAIS POPULARES BASEADO NA QTD DE AVALIAÇÕES //

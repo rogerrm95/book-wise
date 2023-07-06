@@ -9,14 +9,12 @@ export default async function handler(
     return res.status(405).end()
   }
 
-  // QUANTIDADE DE AVALIAÇÕES CARREGADAS NO FRONT-END //
-  let AMOUNT_RATINGS
-
-  if (req.query.take) {
-    AMOUNT_RATINGS = Number(req.query.take)
-  }
+  const bookId = String(req.query.bookId)
 
   const data = await prisma.rating.findMany({
+    where: {
+      book_id: bookId,
+    },
     orderBy: {
       created_at: 'desc',
     },
@@ -35,7 +33,6 @@ export default async function handler(
         },
       },
     },
-    take: AMOUNT_RATINGS,
   })
 
   const ratings = data.map((rating) => {
@@ -58,5 +55,5 @@ export default async function handler(
     }
   })
 
-  return res.status(201).json({ ratings })
+  return res.status(203).json({ ratings })
 }

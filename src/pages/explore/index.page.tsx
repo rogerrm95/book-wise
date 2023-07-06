@@ -4,6 +4,7 @@ import { GetServerSideProps } from 'next'
 import { api } from '@/lib/axios'
 import { categoriesList } from '@/utils/categoriesList'
 
+import { BookModal } from '@/components/Modal/BookModal'
 import { Card } from '@/components/Card'
 import { Menu } from '@/components/Menu'
 import { PageTitle } from '@/components/PageTitle'
@@ -12,32 +13,36 @@ import { SearchInput } from '@/components/Forms/SearchInput'
 import { Binoculars } from '@phosphor-icons/react'
 import { Container, Main, Header, BookList, Categories, Tag } from './styles'
 
-type Ratings = {
+type RatingType = {
   id: string
   rating: number
   userId: string
 }
 
-type Books = {
+type BookType = {
   id: string
   name: string
   imageUrl: string
   author: string
   categories: Array<string>
   average: number
-  ratings: Ratings[]
+  totalPages: number
+  ratings: RatingType[]
 }
 
 interface ExploreProps {
-  books: Books[]
+  books: BookType[]
   totalOfBooks: number
 }
 
 export default function Explore({ books, totalOfBooks }: ExploreProps) {
-  const [booksList, setBooksList] = useState<Books[]>(books as Books[])
-  const [booksFilteredList, setBooksFilteredList] = useState<Books[]>(
-    books as Books[],
+  const [booksList, setBooksList] = useState<BookType[]>(books as BookType[])
+  const [booksFilteredList, setBooksFilteredList] = useState<BookType[]>(
+    books as BookType[],
   )
+  const [isSelectedABook, setIsSelectedABook] = useState(false)
+  const [selectedBook, setSelectedBook] = useState({} as BookType)
+
   const [selectedCategory, setSelectedCategory] = useState('')
   const [searchInputValue, setSearchInputValue] = useState('')
 
@@ -53,7 +58,7 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
         .map((book) => {
           return book.categories.includes(category) ? book : null
         })
-        .filter((book) => book) as Books[]
+        .filter((book) => book) as BookType[]
 
       setSelectedCategory(category)
       setBooksList(newBook)
@@ -83,6 +88,11 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
     }
 
     setSearchInputValue(text)
+  }
+
+  function handleSelectedBook(book: BookType) {
+    setSelectedBook(book)
+    setIsSelectedABook(true)
   }
 
   return (
@@ -136,6 +146,7 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
                     isRead={book.ratings.some(
                       (rate) => rate.userId === data?.user.id,
                     )}
+                    onClick={() => handleSelectedBook(book)}
                   />
                 )
               })}
@@ -154,12 +165,21 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
                     isRead={book.ratings.some(
                       (rate) => rate.userId === data?.user.id,
                     )}
+                    onClick={() => handleSelectedBook(book)}
                   />
                 )
               })}
           </BookList>
         )}
       </Main>
+
+      {isSelectedABook && (
+        <BookModal
+          book={selectedBook}
+          onOpenChange={setIsSelectedABook}
+          open={isSelectedABook}
+        />
+      )}
     </Container>
   )
 }

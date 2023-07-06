@@ -2,6 +2,10 @@
 
 // PARÂMETRO: LISTA DE VALORES NÚMERICOS //
 export function calculateAverage(values: Array<number>) {
+  if (values.length === 0) {
+    return { average: 0, averageWithPrecision: 0, sumTotal: 0 }
+  }
+
   const sumTotal = values.reduce((acc, value) => {
     return (acc += value)
   })

@@ -20,6 +20,8 @@ export const Main = styled('main', {
   paddingTop: '3rem',
   paddingRight: '1rem',
   paddingBottom: '30px',
+
+  position: 'relative',
 })
 
 export const Header = styled('header', {
