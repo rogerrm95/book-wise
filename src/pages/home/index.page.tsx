@@ -6,9 +6,10 @@ import { buildNextAuthOptions } from '../api/auth/[...nextauth].api'
 
 import { api } from '@/lib/axios'
 
-import { BookReview } from '@/components/BookReview'
+import { BookReview, RatingType } from '@/components/BookReview'
+import { Box } from '@/components/Box'
 import { Card } from '@/components/Card'
-import { Comment, RatingType } from '@/components/Comment'
+import { LastBookRead } from '@/components/LastBookRead'
 import { Menu } from '@/components/Menu'
 import { PageTitle } from '@/components/PageTitle'
 
@@ -55,8 +56,21 @@ export default function Home({ ratings, rating, popularBooks }: HomeProps) {
                   <CaretRight size={16} />
                 </Link>
               </Header>
-
-              {/* <BookReview rating={rating} /> */}
+              {rating ? (
+                <LastBookRead
+                  book={{
+                    imageUrl: rating.book.imageUrl,
+                    author: rating.book.author,
+                    name: rating.book.name,
+                    description: rating.description,
+                    rating: rating.rating,
+                  }}
+                />
+              ) : (
+                <Box backgroundMode="light" textSize="sm">
+                  Sem avaliações cadastradas
+                </Box>
+              )}
             </SectionContainer>
           )}
 
