@@ -152,17 +152,16 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
           </header>
 
           {/* CAMPO AVALIAR LIVRO */}
-          {isReviewFieldVisible && (
+          {isReviewFieldVisible && data && (
             <ReviewBox>
               <ReviewHeader>
                 <Avatar
-                  avatarUrl={data?.user.avatar_url}
-                  username={data?.user.name}
+                  avatarUrl={data.user.avatar_url}
+                  username={data.user.name}
                 />
-                <strong>{data?.user.name}</strong>
+                <strong>{data.user.name}</strong>
 
                 <RatingButton
-                  rating={0}
                   sizeIcons={28}
                   onRating={(rate) => setRateAboutBook(rate)}
                 />
@@ -184,9 +183,7 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
                 <CancelButton onClick={handleCloseForm}>
                   <X size={24} weight="bold" />
                 </CancelButton>
-                <SaveButton
-                  onClick={() => handleReviewBookOrSignIn(reviewText)}
-                >
+                <SaveButton onClick={handleReviewBookOrSignIn}>
                   <Check size={24} weight="bold" />
                 </SaveButton>
               </ReviewActions>

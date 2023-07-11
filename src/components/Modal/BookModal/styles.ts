@@ -105,7 +105,6 @@ export const ReviewHeader = styled('header', {
 export const ReviewForm = styled('form', {
   display: 'flex',
   flexDirection: 'column',
-  gap: '$3',
   marginTop: '$3',
   height: '176px',
 
@@ -114,14 +113,14 @@ export const ReviewForm = styled('form', {
   border: 'solid 1px $colors$gray800',
 
   '&:focus-within': {
-    borderColor: '$colors$gray500',
+    borderColor: '$green200',
   },
 
   textarea: {
     all: 'unset',
     height: '100%',
     overflowY: 'hidden',
-    padding: '$3 $5',
+    padding: '$3 $5 0 $5',
 
     fontSize: '$sm',
     overflowWrap: 'break-word',
