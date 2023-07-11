@@ -77,6 +77,10 @@ export const LoginButton = styled('button', {
     backgroundColor: '$gray500',
   },
 
+  '&:active': {
+    backgroundColor: '$gray800',
+  },
+
   '&:focus': {
     borderColor: '$purple100',
   },

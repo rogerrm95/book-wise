@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -11,7 +12,6 @@ import {
   LoginButton,
   SigningMessage,
 } from './styles'
-import { useEffect } from 'react'
 
 export default function Login() {
   const { status } = useSession()
