@@ -1,10 +1,16 @@
+import { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
+
 import { api } from '@/lib/axios'
 import * as Dialog from '@radix-ui/react-dialog'
 
+import { Avatar } from '@/components/Avatar'
 import { Card } from '@/components/Card'
 import { Comment, RatingType } from '@/components/Comment'
+import { RatingButton } from '@/components/Rating/Button'
+import { SignInModal } from '../SignInModal'
 
-import { BookOpen, BookmarkSimple, X } from '@phosphor-icons/react'
+import { BookOpen, BookmarkSimple, Check, X } from '@phosphor-icons/react'
 
 import {
   Content,
@@ -14,8 +20,13 @@ import {
   AboutItem,
   Ratings,
   CloseButton,
+  ReviewBox,
+  ReviewActions,
+  ReviewForm,
+  ReviewHeader,
+  CancelButton,
+  SaveButton,
 } from './styles'
-import { useEffect, useState } from 'react'
 
 type BookType = {
   id: string
@@ -34,8 +45,17 @@ interface BookModalProps {
 }
 
 export function BookModal({ book, onOpenChange, open }: BookModalProps) {
+  const { data, status } = useSession()
+
   const [ratings, setRatings] = useState<RatingType[]>([] as RatingType[])
 
+  const [isReviewFieldVisible, setIsReviewFieldVisible] = useState(false)
+  const [reviewText, setReviewText] = useState('')
+  const [rateAboutBook, setRateAboutBook] = useState(0)
+
+  const [isSignInModalOpen, setIsSignInModalOpen] = useState(false)
+
+  // CHAMADA API PARA CARREGAR OS DADOS REFERENTE AO LIVRO SELECIONADO //
   useEffect(() => {
     async function loadRatingsInfo(bookId: string) {
       const { ratings } = await api
@@ -49,6 +69,32 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
       loadRatingsInfo(book.id)
     }
   }, [book])
+
+  // FUNÇÃO - LOGAR OU AVALIAR LIVRO //
+  // USUÁRIO NÃO LOGADO - EXIBE MODAL DE LOGIN //
+  // USUÁRIO LOGADO - EXIBE UM CAMPO DE TEXTO PARA AVALIAÇÃO //
+  async function handleReviewBookOrSignIn() {
+    if (status === 'authenticated') {
+      const review = {
+        description: reviewText,
+        rate: rateAboutBook,
+        book_id: book.id,
+      }
+      await api
+        .post(`/users/${data.user.id}/rating`, { data: review })
+        .then((_) => {
+          handleCloseForm()
+        })
+    }
+  }
+
+  // FUNÇÃO - FECHAR FORMULÁRIO //
+  // RESETA TODOS OS DADOS (AVALIAÇÃO E TEXTO) //
+  function handleCloseForm() {
+    setIsReviewFieldVisible(false)
+    setReviewText('')
+    setRateAboutBook(0)
+  }
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
@@ -88,11 +134,64 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
           </BookAbout>
         </BookDetails>
 
+        {/* LISTA DE AVALIAÇÕES DOS USUÁRIOS */}
         <Ratings>
           <header>
             <span>Avaliações</span>
-            <button>Avaliar</button>
+            {!isReviewFieldVisible && (
+              <button
+                onClick={() =>
+                  status === 'unauthenticated'
+                    ? setIsSignInModalOpen(true)
+                    : setIsReviewFieldVisible(true)
+                }
+              >
+                Avaliar
+              </button>
+            )}
           </header>
+
+          {/* CAMPO AVALIAR LIVRO */}
+          {isReviewFieldVisible && (
+            <ReviewBox>
+              <ReviewHeader>
+                <Avatar
+                  avatarUrl={data?.user.avatar_url}
+                  username={data?.user.name}
+                />
+                <strong>{data?.user.name}</strong>
+
+                <RatingButton
+                  rating={0}
+                  sizeIcons={28}
+                  onRating={(rate) => setRateAboutBook(rate)}
+                />
+              </ReviewHeader>
+
+              <ReviewForm>
+                <textarea
+                  name="review"
+                  id="review"
+                  placeholder="Escreva sua avaliação"
+                  value={reviewText}
+                  onChange={(e) => setReviewText(e.target.value)}
+                  maxLength={450}
+                />
+                <span>{reviewText.length}/450</span>
+              </ReviewForm>
+
+              <ReviewActions>
+                <CancelButton onClick={handleCloseForm}>
+                  <X size={24} weight="bold" />
+                </CancelButton>
+                <SaveButton
+                  onClick={() => handleReviewBookOrSignIn(reviewText)}
+                >
+                  <Check size={24} weight="bold" />
+                </SaveButton>
+              </ReviewActions>
+            </ReviewBox>
+          )}
 
           {ratings.length !== 0 &&
             ratings.map((rating) => (
@@ -100,6 +199,12 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
             ))}
         </Ratings>
       </Content>
+      {isSignInModalOpen && (
+        <SignInModal
+          open={isSignInModalOpen}
+          onOpenChange={setIsSignInModalOpen}
+        />
+      )}
     </Dialog.Root>
   )
 }

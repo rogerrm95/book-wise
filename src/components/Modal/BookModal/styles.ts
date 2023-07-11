@@ -21,6 +21,8 @@ export const Content = styled(Dialog.Content, {
   flexDirection: 'column',
   padding: '1.5rem 3rem',
   gap: '$10',
+
+  overflowY: 'auto',
 })
 
 export const CloseButton = styled(Dialog.Close, {
@@ -79,7 +81,105 @@ export const AboutItem = styled('div', {
   },
 })
 
-// AVALIAÇÕES //
+// FORMULÁRIO DE AVALIAÇÃO - LIVRO //
+export const ReviewBox = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '$3',
+  padding: '$6',
+
+  backgroundColor: '$gray700',
+  borderRadius: '$md',
+})
+
+export const ReviewHeader = styled('header', {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '$4',
+
+  '& button:last-child': {
+    marginLeft: 'auto',
+  },
+})
+
+export const ReviewForm = styled('form', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '$3',
+  marginTop: '$3',
+  height: '176px',
+
+  backgroundColor: '$gray800',
+  borderRadius: '$sm',
+  border: 'solid 1px $colors$gray800',
+
+  '&:focus-within': {
+    borderColor: '$colors$gray500',
+  },
+
+  textarea: {
+    all: 'unset',
+    height: '100%',
+    overflowY: 'hidden',
+    padding: '$3 $5',
+
+    fontSize: '$sm',
+    overflowWrap: 'break-word',
+    textAlign: 'justify',
+
+    color: '$gray400',
+    caretColor: '$green100',
+
+    '&::placeholder': {
+      color: '$gray400',
+    },
+  },
+
+  span: {
+    color: '$gray450',
+    padding: '$2',
+    fontSize: '$sm',
+    marginLeft: 'auto',
+  },
+})
+
+export const ReviewActions = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '$2',
+  alignSelf: 'flex-end',
+})
+
+const ActionButton = styled('button', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+
+  backgroundColor: '$gray600',
+  borderRadius: '$sm',
+  padding: '$3',
+
+  cursor: 'pointer',
+  transition: 'all 0.3s',
+
+  '&:hover': {
+    backgroundColor: '$gray500',
+  },
+})
+
+export const CancelButton = styled(ActionButton, {
+  svg: {
+    color: '$purple100',
+  },
+})
+
+export const SaveButton = styled(ActionButton, {
+  svg: {
+    color: '$green100',
+  },
+})
+
+// LISTA DE AVALIAÇÕES //
 export const Ratings = styled('div', {
   display: 'flex',
   flexDirection: 'column',
