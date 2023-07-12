@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Avatar } from '../Avatar'
 import { Rating } from '../Rating'
 
@@ -34,7 +35,9 @@ export function Comment({ rating }: CommentProps) {
       <Header>
         <Avatar avatarUrl={rating.user.avatar} username={rating.user.name} />
         <User>
-          <p>{rating.user.name}</p>
+          <Link href={`/profile/${rating.user.userId}`}>
+            {rating.user.name}
+          </Link>
           <span>Hoje</span>
         </User>
 

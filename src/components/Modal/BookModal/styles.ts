@@ -12,17 +12,18 @@ export const Content = styled(Dialog.Content, {
   position: 'fixed',
   top: 0,
   right: 0,
-  left: '45%',
-  height: '100%',
-
-  backgroundColor: '$gray800',
 
   display: 'flex',
   flexDirection: 'column',
   padding: '1.5rem 3rem',
   gap: '$10',
 
+  height: '100%',
+  maxWidth: '660px',
+  width: '100%',
   overflowY: 'auto',
+
+  backgroundColor: '$gray800',
 })
 
 export const CloseButton = styled(Dialog.Close, {

@@ -25,6 +25,16 @@ export const User = styled('div', {
     color: '$gray400',
     fontSize: '$sm',
   },
+
+  // LINK - NEXT //
+  a: {
+    cursor: 'pointer',
+    transition: 'all 0.3s',
+
+    '&:hover': {
+      color: '$purple100',
+    },
+  },
 })
 
 export const Content = styled('div', {

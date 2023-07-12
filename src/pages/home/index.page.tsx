@@ -35,7 +35,7 @@ interface HomeProps {
 }
 
 export default function Home({ ratings, rating, popularBooks }: HomeProps) {
-  const { status } = useSession()
+  const { status, data } = useSession()
 
   return (
     <Container>
@@ -51,7 +51,7 @@ export default function Home({ ratings, rating, popularBooks }: HomeProps) {
               <Header>
                 <span>Sua última leitura</span>
 
-                <Link href="/">
+                <Link href={`/profile/${data.user.id}`}>
                   Ver todos
                   <CaretRight size={16} />
                 </Link>
@@ -93,7 +93,7 @@ export default function Home({ ratings, rating, popularBooks }: HomeProps) {
         <Header>
           <span>Livros Populares</span>
 
-          <Link href="/">
+          <Link href="/explore">
             Ver todos
             <CaretRight size={16} />
           </Link>

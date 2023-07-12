@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import { Avatar } from '../Avatar'
 import { Rating } from '../Rating'
 
@@ -53,7 +55,9 @@ export function BookReview({ rating }: BookReviewProps) {
               username={rating.user.name}
             />
             <User>
-              <p>{rating.user.name}</p>
+              <Link href={`/profile/${rating.user.userId}`}>
+                {rating.user.name}
+              </Link>
               <span>Hoje</span>
             </User>
             <Rating rating={rating.rating} />

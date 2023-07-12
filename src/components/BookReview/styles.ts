@@ -17,6 +17,17 @@ export const Header = styled('header', {
   gridTemplateColumns: '40px 1fr 96px',
   alignItems: 'center',
   gap: '$4',
+
+  // LINK - NEXT //
+  a: {
+    cursor: 'pointer',
+    transition: 'all 0.3s',
+    fontWeight: '$bold',
+
+    '&:hover': {
+      color: '$purple100',
+    },
+  },
 })
 
 export const User = styled('div', {
@@ -51,6 +62,7 @@ export const BookHeader = styled('div', {
 
   p: {
     fontWeight: '$bold',
+    lineHeight: '$short',
   },
 
   span: {
