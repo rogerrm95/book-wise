@@ -8,6 +8,7 @@ type BookType = {
   rating: number
   imageUrl: string
   description: string
+  createdAt: string
 }
 
 interface LastBookReadProps {
@@ -27,7 +28,7 @@ export function LastBookRead({ book }: LastBookReadProps) {
 
       <BookInfo>
         <header>
-          Há 2 dias
+          <span>{book.createdAt}</span>
           <Rating rating={book.rating} />
         </header>
 

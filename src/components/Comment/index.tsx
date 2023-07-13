@@ -38,7 +38,7 @@ export function Comment({ rating }: CommentProps) {
           <Link href={`/profile/${rating.user.userId}`}>
             {rating.user.name}
           </Link>
-          <span>Hoje</span>
+          <span>{rating.createdAt}</span>
         </User>
 
         <Rating rating={rating.rating} />

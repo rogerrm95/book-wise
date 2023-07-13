@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 
 import { api } from '@/lib/axios'
+import { calculateRelativeTime } from '@/utils/calculateRelativeTime'
 import * as Dialog from '@radix-ui/react-dialog'
 
 import { Avatar } from '@/components/Avatar'
@@ -62,7 +63,14 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
         .get(`/ratings/book/${bookId}`)
         .then((res) => res.data)
 
-      setRatings(ratings)
+      const ratingsFormatted = ratings.map((rating: RatingType) => {
+        return {
+          ...rating,
+          createdAt: calculateRelativeTime(rating.createdAt),
+        }
+      })
+
+      setRatings(ratingsFormatted)
     }
 
     if (book) {
@@ -120,7 +128,7 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
               <BookmarkSimple size={24} weight="bold" />
               <div>
                 <span>Categoria</span>
-                <strong>Educação</strong>
+                <strong>{book.categories.join(', ')}</strong>
               </div>
             </AboutItem>
 
@@ -190,12 +198,14 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
             </ReviewBox>
           )}
 
+          {/* AVALIAÇÕES DOS USUÁRIOS */}
           {ratings.length !== 0 &&
             ratings.map((rating) => (
               <Comment key={rating.id} rating={rating} />
             ))}
         </Ratings>
       </Content>
+
       {isSignInModalOpen && (
         <SignInModal
           open={isSignInModalOpen}

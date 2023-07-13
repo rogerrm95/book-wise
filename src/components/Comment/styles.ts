@@ -21,11 +21,6 @@ export const User = styled('div', {
   display: 'flex',
   flexDirection: 'column',
 
-  span: {
-    color: '$gray400',
-    fontSize: '$sm',
-  },
-
   // LINK - NEXT //
   a: {
     cursor: 'pointer',
@@ -33,6 +28,15 @@ export const User = styled('div', {
 
     '&:hover': {
       color: '$purple100',
+    },
+  },
+
+  span: {
+    color: '$gray400',
+    fontSize: '$sm',
+
+    '&::first-letter': {
+      textTransform: 'uppercase',
     },
   },
 })

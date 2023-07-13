@@ -17,26 +17,29 @@ export const Header = styled('header', {
   gridTemplateColumns: '40px 1fr 96px',
   alignItems: 'center',
   gap: '$4',
-
-  // LINK - NEXT //
-  a: {
-    cursor: 'pointer',
-    transition: 'all 0.3s',
-    fontWeight: '$bold',
-
-    '&:hover': {
-      color: '$purple100',
-    },
-  },
 })
 
 export const User = styled('div', {
   display: 'flex',
   flexDirection: 'column',
 
+  // LINK - NEXT //
+  a: {
+    cursor: 'pointer',
+    transition: 'all 0.3s',
+
+    '&:hover': {
+      color: '$purple100',
+    },
+  },
+
   span: {
     color: '$gray400',
     fontSize: '$sm',
+
+    '&::first-letter': {
+      textTransform: 'uppercase',
+    },
   },
 })
 

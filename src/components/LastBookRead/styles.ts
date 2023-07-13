@@ -1,5 +1,4 @@
 import { styled } from '@stitches/react'
-import { RatingContainer } from '../Rating/styles'
 
 import Image from 'next/image'
 
@@ -27,10 +26,15 @@ export const BookInfo = styled('div', {
   header: {
     display: 'flex',
     alignItems: 'center',
-    color: '$gray300',
+    justifyContent: 'space-between',
 
-    [`${RatingContainer}`]: {
-      marginLeft: 'auto',
+    span: {
+      color: '$gray300',
+      fontSize: '$sm',
+
+      '&::first-letter': {
+        textTransform: 'uppercase',
+      },
     },
   },
 
@@ -43,6 +47,7 @@ export const BookInfo = styled('div', {
 
     span: {
       color: '$gray400',
+      fontSize: '$sm',
     },
   },
 
@@ -51,5 +56,6 @@ export const BookInfo = styled('div', {
     fontSize: '$sm',
     color: '$gray400',
     // LIMITAÇÃO DE CARACTERES VISÍVEIS //
+    // ... //
   },
 })

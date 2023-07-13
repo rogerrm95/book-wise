@@ -6,6 +6,8 @@ import { getServerSession } from 'next-auth'
 import { buildNextAuthOptions } from '@/pages/api/auth/[...nextauth].api'
 
 import { api } from '@/lib/axios'
+import dayjs from 'dayjs'
+import { calculateRelativeTime } from '@/utils/calculateRelativeTime'
 
 import { Avatar } from '@/components/Avatar'
 import { Menu } from '@/components/Menu'
@@ -81,10 +83,11 @@ export default function Home() {
     name: '',
     ratings: [],
   } as InfoType)
+
   // VARIÁVEL AUXILIAR - ATUA DIRETAMENTE NOS FILTROS //
   const [ratings, setRatings] = useState<RatingType[]>([] as RatingType[])
 
-  // CHAMADA API PARA BUSCAR OS DADOS DO USUÁRIO / /
+  // CHAMADA API PARA BUSCAR OS DADOS DO USUÁRIO //
   useEffect(() => {
     async function loadUserInfoAndMetrics() {
       setIsLoading(true)
@@ -93,9 +96,21 @@ export default function Home() {
         .get(`/users/metrics/${userId}`)
         .then((res) => res.data)
 
+      const ratingsFormatted = user.info.ratings.map((rating: RatingType) => {
+        return {
+          ...rating,
+          createdAt: calculateRelativeTime(rating.createdAt),
+        }
+      })
+
+      const userInfoFormatted = {
+        ...user.info,
+        createdAt: String(dayjs(user.info.createdAt).year()),
+      } as InfoType
+
       setUserMetrics(user.metrics)
-      setUserInfo(user.info)
-      setRatings(user.info.ratings)
+      setUserInfo(userInfoFormatted)
+      setRatings(ratingsFormatted)
       setIsLoading(false)
     }
 
@@ -147,7 +162,7 @@ export default function Home() {
                 !isRatingListEmpty ? (
                   ratings.map((rating) => (
                     <ReviewItem key={rating.id}>
-                      <span>Há 2 dias</span>
+                      <span>{rating.createdAt}</span>
 
                       <ReviewBox>
                         <BookInfo>
@@ -189,7 +204,7 @@ export default function Home() {
                   />
 
                   <h2>{userInfo.name}</h2>
-                  <span>Membro desde 2019</span>
+                  <span>Membro desde {userInfo.createdAt}</span>
                 </ProfileHeader>
 
                 <hr />

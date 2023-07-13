@@ -46,9 +46,13 @@ export const ReviewItem = styled('div', {
   flexDirection: 'column',
   gap: '$2',
 
-  span: {
+  '& > span': {
     color: '$gray300',
     fontSize: '$sm',
+  },
+
+  '& > span::first-letter': {
+    textTransform: 'uppercase',
   },
 })
 
@@ -93,7 +97,6 @@ export const BookReview = styled('p', {
 })
 
 // PERFIL //
-
 export const ProfileBox = styled('div', {
   flex: 1,
 

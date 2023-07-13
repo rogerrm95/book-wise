@@ -58,7 +58,7 @@ export function BookReview({ rating }: BookReviewProps) {
               <Link href={`/profile/${rating.user.userId}`}>
                 {rating.user.name}
               </Link>
-              <span>Hoje</span>
+              <span>{rating.createdAt}</span>
             </User>
             <Rating rating={rating.rating} />
           </Header>

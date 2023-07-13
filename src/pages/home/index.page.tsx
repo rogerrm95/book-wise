@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { buildNextAuthOptions } from '../api/auth/[...nextauth].api'
 
 import { api } from '@/lib/axios'
+import { calculateRelativeTime } from '@/utils/calculateRelativeTime'
 
 import { BookReview, RatingType } from '@/components/BookReview'
 import { Box } from '@/components/Box'
@@ -64,6 +65,7 @@ export default function Home({ ratings, rating, popularBooks }: HomeProps) {
                     name: rating.book.name,
                     description: rating.description,
                     rating: rating.rating,
+                    createdAt: rating.createdAt,
                   }}
                 />
               ) : (
@@ -140,10 +142,22 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     .get('/ratings/popular-books')
     .then((res) => res.data)
 
+  const ratingFormatted = {
+    ...rating,
+    createdAt: calculateRelativeTime(rating.createdAt),
+  } as RatingType
+
+  const ratingsFormatted = ratings.map((rating: RatingType) => {
+    return {
+      ...rating,
+      createdAt: calculateRelativeTime(rating.createdAt),
+    }
+  })
+
   return {
     props: {
-      ratings,
-      rating: rating || null,
+      ratings: ratingsFormatted,
+      rating: ratingFormatted || null,
       popularBooks,
     },
   }
