@@ -27,14 +27,31 @@ export default async function handler(
 
   const { data } = req.body
 
-  await prisma.rating.create({
+  const response = await prisma.rating.create({
     data: {
       description: data.description,
       rate: data.rate,
       book_id: data.book_id,
       user_id: userId,
     },
+    include: {
+      user: {
+        select: {
+          name: true,
+          avatar_url: true,
+        },
+      },
+    },
   })
 
-  return res.status(201).json({ message: 'OK' })
+  const rating = {
+    ...response,
+    rating: response.rate,
+    user: {
+      avatar: response.user.avatar_url,
+      name: response.user.name,
+    },
+  }
+
+  return res.status(201).json({ rating })
 }

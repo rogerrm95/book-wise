@@ -88,11 +88,22 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
         rate: rateAboutBook,
         book_id: book.id,
       }
-      await api
+      const response = await api
         .post(`/users/${data.user.id}/rating`, { data: review })
-        .then((_) => {
+        .then((res) => {
           handleCloseForm()
+          return res.data
         })
+
+      const responseFormatted = {
+        ...response,
+        rating: {
+          ...response.rating,
+          createdAt: calculateRelativeTime(response.rating.createdAt),
+        },
+      }
+
+      setRatings((props) => [responseFormatted.rating, ...props])
     }
   }
 
