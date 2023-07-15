@@ -41,6 +41,8 @@ export default async function handler(
             },
           },
         },
+        // ORDENA POR AVALIAÇÕES MAIS RECENTES PRIMEIRO //
+        orderBy: { created_at: 'desc' },
       },
     },
   })
