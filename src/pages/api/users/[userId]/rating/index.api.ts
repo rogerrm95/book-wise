@@ -12,18 +12,18 @@ export default async function handler(
   const userId = String(req.query.userId)
 
   if (!userId) {
-    return res.status(404).json({ message: 'User ID not found!' })
+    return res.status(404).end()
   }
 
-  const isUserExists = await prisma.user.findUniqueOrThrow({
-    where: {
-      id: userId,
-    },
-  })
-
-  if (!isUserExists) {
-    return res.status(403).json({ message: 'User not exists!' })
-  }
+  await prisma.user
+    .findUniqueOrThrow({
+      where: {
+        id: userId,
+      },
+    })
+    .catch((_) => {
+      return res.status(404).json({ message: 'Usuário não encontrado' })
+    })
 
   const { data } = req.body
 

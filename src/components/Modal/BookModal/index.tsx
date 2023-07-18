@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 
-import { api } from '@/lib/axios'
-import { calculateRelativeTime } from '@/utils/calculateRelativeTime'
 import * as Dialog from '@radix-ui/react-dialog'
+
+import { api } from '@/lib/axios'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { calculateRelativeTime } from '@/utils/calculateRelativeTime'
 
 import { Avatar } from '@/components/Avatar'
 import { Card } from '@/components/Card'
@@ -12,7 +15,6 @@ import { RatingButton } from '@/components/Rating/Button'
 import { SignInModal } from '../SignInModal'
 
 import { BookOpen, BookmarkSimple, Check, X } from '@phosphor-icons/react'
-
 import {
   Content,
   Overlay,
@@ -81,29 +83,39 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
   // FUNÇÃO - LOGAR OU AVALIAR LIVRO //
   // USUÁRIO NÃO LOGADO - EXIBE MODAL DE LOGIN //
   // USUÁRIO LOGADO - EXIBE UM CAMPO DE TEXTO PARA AVALIAÇÃO //
-  async function handleReviewBookOrSignIn() {
-    if (status === 'authenticated') {
-      const review = {
-        description: reviewText,
-        rate: rateAboutBook,
-        book_id: book.id,
-      }
-      const response = await api
-        .post(`/users/${data.user.id}/rating`, { data: review })
-        .then((res) => {
-          handleCloseForm()
-          return res.data
-        })
+  async function handleReviewBook() {
+    try {
+      if (status === 'authenticated') {
+        const review = {
+          description: reviewText,
+          rate: rateAboutBook,
+          book_id: book.id,
+        }
 
-      const responseFormatted = {
-        ...response,
-        rating: {
-          ...response.rating,
-          createdAt: calculateRelativeTime(response.rating.createdAt),
-        },
-      }
+        const response = await api
+          .post(`/users/${data.user.id}/rating`, { data: review })
+          .then((res) => {
+            handleCloseForm()
+            return res.data
+          })
 
-      setRatings((props) => [responseFormatted.rating, ...props])
+        const responseFormatted = {
+          ...response,
+          rating: {
+            ...response.rating,
+            createdAt: calculateRelativeTime(response.rating.createdAt),
+          },
+        }
+
+        setRatings((props) => [responseFormatted.rating, ...props])
+        toast.success('Avaliação cadastrada')
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message)
+      } else {
+        throw new Error('Internal Error')
+      }
     }
   }
 
@@ -202,7 +214,7 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
                 <CancelButton onClick={handleCloseForm}>
                   <X size={24} weight="bold" />
                 </CancelButton>
-                <SaveButton onClick={handleReviewBookOrSignIn}>
+                <SaveButton onClick={handleReviewBook}>
                   <Check size={24} weight="bold" />
                 </SaveButton>
               </ReviewActions>
