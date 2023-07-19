@@ -6,6 +6,7 @@ import Image from 'next/image'
 import {
   Container,
   HeroImage,
+  LogoImage,
   LoginContainer,
   LoginForm,
   ActionsButtons,
@@ -34,6 +35,14 @@ export default function Login() {
         alt="Tela de Fundo"
         width={598}
         height={912}
+        quality={100}
+      />
+
+      <LogoImage
+        src="/images/logo.png"
+        alt="Logo"
+        width={200}
+        height={100}
         quality={100}
       />
 

@@ -8,11 +8,37 @@ export const Container = styled('div', {
 
   display: 'grid',
   gridTemplateColumns: '598px 1fr',
+
+  // LAPTOP OR LESS //
+  '@media(max-width: 992px)': {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '$4',
+    height: '100vh',
+  },
 })
 
 export const HeroImage = styled(Image, {
   borderRadius: '$md',
   objectFit: 'contain',
+
+  // LAPTOP OR LESS //
+  '@media(max-width: 992px)': {
+    display: 'none',
+  },
+})
+
+export const LogoImage = styled(Image, {
+  display: 'none',
+  borderRadius: '$md',
+  objectFit: 'contain',
+
+  // LAPTOP OR LESS //
+  '@media(max-width: 992px)': {
+    display: 'block',
+  },
 })
 
 export const LoginContainer = styled('div', {
