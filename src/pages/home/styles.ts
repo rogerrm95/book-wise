@@ -13,6 +13,15 @@ export const Container = styled('div', {
   height: '100vh',
   maxWidth: '1440px',
   margin: 'auto',
+
+  overflow: 'auto',
+
+  '@media(max-width: 992px)': {
+    display: 'flex',
+    flexDirection: 'column',
+
+    gap: '$4',
+  },
 })
 
 export const Main = styled('main', {
@@ -121,4 +130,10 @@ export const BookInfo = styled('div', {
 export const PopularBooks = styled(SectionContainer, {
   paddingTop: '5rem',
   marginTop: '$10',
+  marginBottom: '$10',
+
+  '@media(max-width: 992px)': {
+    marginTop: 0,
+    paddingTop: 0,
+  },
 })
