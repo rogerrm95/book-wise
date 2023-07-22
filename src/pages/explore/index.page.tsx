@@ -7,11 +7,13 @@ import { categoriesList } from '@/utils/categoriesList'
 import { BookModal } from '@/components/Modal/BookModal'
 import { Card } from '@/components/Card'
 import { Menu } from '@/components/Menu'
+import { Menu as MenuResponsive } from '@/components/Responsive/Menu'
 import { PageTitle } from '@/components/PageTitle'
 import { SearchInput } from '@/components/Forms/SearchInput'
 
 import { Binoculars } from '@phosphor-icons/react'
 import { Container, Main, Header, BookList, Categories, Tag } from './styles'
+import { Select } from '@/components/Forms/Select'
 
 type RatingType = {
   id: string
@@ -99,6 +101,8 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
     <Container>
       <Menu />
 
+      <MenuResponsive />
+
       <Main>
         <Header>
           <PageTitle title="Explorar" Icon={Binoculars} />
@@ -130,6 +134,9 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
             </Tag>
           ))}
         </Categories>
+
+        {/* LISTA DE CATEGORIAS - MOBILE */}
+        <Select />
 
         {/* LISTA DE LIVROS */}
         {searchInputValue ? (

@@ -10,6 +10,13 @@ export const Container = styled('div', {
   height: '100vh',
   maxWidth: '1440px',
   margin: 'auto',
+
+  '@media(max-width: 992px)': {
+    display: 'flex',
+    flexDirection: 'column',
+
+    gap: '$4',
+  },
 })
 
 export const Main = styled('main', {
@@ -31,7 +38,7 @@ export const Header = styled('header', {
 })
 
 export const Categories = styled('div', {
-  display: 'flex',
+  display: 'none',
   alignItems: 'center',
   gap: '$3',
   flexWrap: 'wrap',
