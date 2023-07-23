@@ -1,23 +1,37 @@
 import * as SelectRadix from '@radix-ui/react-select'
 
-import { CaretDown, BookmarkSimple } from '@phosphor-icons/react'
+import { CaretDown } from '@phosphor-icons/react'
 
 import {
   SelectContent,
-  SelectGroup,
   SelectIcon,
   SelectItem,
   SelectItemText,
-  SelectLabel,
   SelectTrigger,
   SelectViewport,
 } from './styles'
 
-export function Select() {
+interface SelectProps {
+  placeholder: string
+  value: string | undefined
+  onSelectValue: (option: string) => void
+  options: string[]
+  size?: 'sm' | 'md' | 'full'
+  align?: 'left' | 'center' | 'right'
+}
+
+export function Select({
+  value,
+  onSelectValue,
+  options,
+  placeholder,
+  size = 'full',
+  align = 'left',
+}: SelectProps) {
   return (
-    <SelectRadix.Root>
-      <SelectTrigger size="md" align="left">
-        <SelectRadix.Value placeholder="Selecione uma categoria ..." />
+    <SelectRadix.Root value={value} onValueChange={onSelectValue}>
+      <SelectTrigger size={size} align={align}>
+        <SelectRadix.Value placeholder={placeholder} />
 
         <SelectIcon>
           <CaretDown size={14} weight="bold" />
@@ -27,23 +41,16 @@ export function Select() {
       <SelectRadix.Portal>
         <SelectContent>
           <SelectViewport>
-            <SelectGroup>
-              <SelectLabel>
-                <BookmarkSimple size={16} weight="bold" />
-                Categorias
-              </SelectLabel>
-              <SelectItem value="1">
-                <SelectItemText>Item 1</SelectItemText>
-              </SelectItem>
+            {/* LISTA DE OPÇÕES  */}
+            <SelectItem value={''}>
+              <SelectItemText>Geral</SelectItemText>
+            </SelectItem>
 
-              <SelectItem value="2">
-                <SelectItemText>Item 2</SelectItemText>
+            {options.map((option) => (
+              <SelectItem value={option} key={option}>
+                <SelectItemText>{option}</SelectItemText>
               </SelectItem>
-
-              <SelectItem value="3">
-                <SelectItemText>Item 3</SelectItemText>
-              </SelectItem>
-            </SelectGroup>
+            ))}
           </SelectViewport>
         </SelectContent>
       </SelectRadix.Portal>

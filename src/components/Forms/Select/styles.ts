@@ -6,11 +6,13 @@ export const SelectTrigger = styled(Select.Trigger, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: '$2 $3',
+  padding: '$3 $1',
   position: 'relative',
 
   fontSize: '$sm',
-  borderBottom: '1px solid $colors$gray500',
+  // borderBottom: '1px solid $colors$gray500',
+  border: '1px solid $colors$gray500',
+  borderRadius: '$sm',
   color: '$gray400',
 
   cursor: 'pointer',
@@ -19,7 +21,6 @@ export const SelectTrigger = styled(Select.Trigger, {
   '&:hover': {
     color: '$green100',
     borderColor: '$green100',
-    borderRadius: '$sm',
   },
 
   '&[data-state=open]': {
@@ -31,9 +32,18 @@ export const SelectTrigger = styled(Select.Trigger, {
     size: {
       sm: {
         width: '25%',
+
+        // MOBILE //
+        '@media(max-width: 600px)': {
+          width: '100%',
+        },
       },
       md: {
         width: '50%',
+        // MOBILE //
+        '@media(max-width: 600px)': {
+          width: '100%',
+        },
       },
       full: {
         width: '100%',
@@ -59,39 +69,24 @@ export const SelectIcon = styled(Select.Icon, {
 })
 
 export const SelectContent = styled(Select.Content, {
-  overflow: 'hidden',
   backgroundColor: '$gray700',
   borderRadius: 6,
   boxShadow: '0px 1px 10px 10px rgba(20, 23, 24, 0.9)',
 
-  padding: '$4',
-
-  width: '100%',
+  padding: '$2',
+  height: '400px',
   position: 'absolute',
-  top: 120,
-  right: 0,
+  top: 72,
+  left: 12,
 })
 
 export const SelectViewport = styled(Select.Viewport, {
   display: 'flex',
-  gap: '$4',
-  width: '100%',
-  padding: '$2',
-})
-
-export const SelectGroup = styled(Select.Group, {
-  display: 'flex',
   flexDirection: 'column',
-  gap: '$5',
-  width: 'inherit',
-})
-
-export const SelectLabel = styled(Select.Label, {
-  color: '$gray400',
-
-  display: 'flex',
-  alignItems: 'center',
-  gap: '$2',
+  gap: '$4',
+  padding: '$2',
+  marginBottom: '$1',
+  width: '100%',
 })
 
 export const SelectItem = styled(Select.Item, {
