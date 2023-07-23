@@ -2,6 +2,7 @@ import { HTMLAttributes } from 'react'
 import { Rating } from '../Rating'
 
 import { CardContainer, BookImage, BookInfo, Tag } from './styles'
+import { Check } from '@phosphor-icons/react'
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   name: string
@@ -46,7 +47,14 @@ export function Card({
         {amountRatings && <span>{`Avaliações: ${amountRatings}`}</span>}
       </BookInfo>
 
-      {isRead && <Tag>LIDO</Tag>}
+      {isRead && (
+        <>
+          <Tag title="Lido">
+            <Check size={16} weight="bold" />
+            <span>LIDO</span>
+          </Tag>
+        </>
+      )}
     </CardContainer>
   )
 }

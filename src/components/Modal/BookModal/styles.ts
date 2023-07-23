@@ -46,16 +46,34 @@ export const BookDetails = styled('div', {
   justifyContent: 'space-between',
   padding: '1.5rem 2rem 1rem',
   gap: '2.5rem',
+
+  '.card': {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: 0,
+  },
+
+  // LAPTOP OR LESS //
+  '@media(max-width: 992px)': {
+    padding: '1.5rem',
+  },
 })
 
 export const BookAbout = styled('div', {
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-around',
   padding: '1.5rem 0',
   gap: '3.5rem',
 
   borderTop: '1px solid $colors$gray600',
+
+  // MOBILE //
+  '@media(max-width: 600px)': {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: '$4',
+  },
 })
 
 export const AboutItem = styled('div', {
@@ -100,6 +118,16 @@ export const ReviewHeader = styled('header', {
 
   '& button:last-child': {
     marginLeft: 'auto',
+  },
+
+  '@media(max-width: 992px)': {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    '& button:last-child': {
+      marginLeft: '0',
+    },
   },
 })
 

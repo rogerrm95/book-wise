@@ -10,10 +10,18 @@ import { Menu } from '@/components/Menu'
 import { Menu as MenuResponsive } from '@/components/Responsive/Menu'
 import { PageTitle } from '@/components/PageTitle'
 import { SearchInput } from '@/components/Forms/SearchInput'
-
-import { Binoculars } from '@phosphor-icons/react'
-import { Container, Main, Header, BookList, Categories, Tag } from './styles'
 import { Select } from '@/components/Forms/Select'
+
+import { Binoculars, BookmarkSimple } from '@phosphor-icons/react'
+import {
+  Container,
+  Main,
+  Header,
+  BookList,
+  Categories,
+  Tag,
+  SelectCategory,
+} from './styles'
 
 type RatingType = {
   id: string
@@ -136,7 +144,19 @@ export default function Explore({ books, totalOfBooks }: ExploreProps) {
         </Categories>
 
         {/* LISTA DE CATEGORIAS - MOBILE */}
-        <Select />
+        <SelectCategory>
+          <span>
+            <BookmarkSimple size={20} />
+            Categoria:
+          </span>
+          <Select
+            options={categoriesList}
+            onSelectValue={(category) => onSelectAnyCategory(category)}
+            value={selectedCategory || undefined}
+            placeholder="Selecione uma categoria"
+            size="md"
+          />
+        </SelectCategory>
 
         {/* LISTA DE LIVROS */}
         {searchInputValue ? (

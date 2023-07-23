@@ -138,6 +138,7 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
 
         <BookDetails>
           <Card
+            className="card"
             author={book.author}
             image={{ url: book.imageUrl, height: 242, width: 170 }}
             name={book.name}

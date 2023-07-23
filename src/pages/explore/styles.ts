@@ -35,13 +35,45 @@ export const Header = styled('header', {
   display: 'flex',
   justifyContent: 'space-between',
   gap: '$10',
+
+  // MOBILE //
+  '@media(max-width: 600px)': {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '$4',
+  },
 })
 
 export const Categories = styled('div', {
-  display: 'none',
+  display: 'flex',
   alignItems: 'center',
   gap: '$3',
   flexWrap: 'wrap',
+
+  // LAPTOP OR LESS //
+  '@media(max-width: 992px)': {
+    display: 'none',
+  },
+})
+
+export const SelectCategory = styled('div', {
+  display: 'none',
+
+  // LAPTOP OR LESS //
+  '@media(max-width: 992px)': {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '$3',
+    flexWrap: 'wrap',
+
+    '& > span': {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '$2',
+
+      color: '$gray300',
+    },
+  },
 })
 
 export const Tag = styled('span', {
