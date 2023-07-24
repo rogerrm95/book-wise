@@ -193,6 +193,15 @@ const ActionButton = styled('button', {
   '&:hover': {
     backgroundColor: '$gray500',
   },
+
+  '&:disabled': {
+    cursor: 'not-allowed',
+    opacity: 0.5,
+  },
+
+  '&:disabled:hover': {
+    backgroundColor: '$gray600',
+  },
 })
 
 export const CancelButton = styled(ActionButton, {

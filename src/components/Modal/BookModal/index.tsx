@@ -127,6 +127,9 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
     setRateAboutBook(0)
   }
 
+  // VARIAVEIS AUXILIARES //
+  const isValidReviewText = reviewText.length >= 2
+
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Overlay />
@@ -215,7 +218,10 @@ export function BookModal({ book, onOpenChange, open }: BookModalProps) {
                 <CancelButton onClick={handleCloseForm}>
                   <X size={24} weight="bold" />
                 </CancelButton>
-                <SaveButton onClick={handleReviewBook}>
+                <SaveButton
+                  onClick={handleReviewBook}
+                  disabled={!isValidReviewText}
+                >
                   <Check size={24} weight="bold" />
                 </SaveButton>
               </ReviewActions>
