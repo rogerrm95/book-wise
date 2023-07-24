@@ -10,11 +10,8 @@ export const Container = styled('div', {
   gap: '5rem',
   padding: '$5',
 
-  height: '100vh',
   maxWidth: '1440px',
   margin: 'auto',
-
-  overflow: 'auto',
 
   '@media(max-width: 992px)': {
     display: 'flex',
@@ -31,7 +28,6 @@ export const Main = styled('main', {
 
   paddingTop: '3rem',
   paddingRight: '1rem',
-  marginBottom: '$10',
 })
 
 export const Content = styled('div', {
@@ -130,10 +126,8 @@ export const BookInfo = styled('div', {
 export const PopularBooks = styled(SectionContainer, {
   paddingTop: '5rem',
   marginTop: '$10',
-  marginBottom: '$10',
 
   '@media(max-width: 992px)': {
-    marginTop: 0,
     paddingTop: 0,
   },
 })
