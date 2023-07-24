@@ -35,7 +35,7 @@ import {
   BookInfo,
   BookReview,
   BookDescription,
-  ProfileBox,
+  ProfileSection,
   ProfileHeader,
   ProfileStatus,
   StatusItem,
@@ -193,7 +193,7 @@ export default function Home() {
             </ReviewsList>
           </ReviewSection>
 
-          <ProfileBox>
+          <ProfileSection>
             {!isLoading ? (
               <>
                 <ProfileHeader>
@@ -253,7 +253,7 @@ export default function Home() {
                 Carregando...
               </LoadingSpinner>
             )}
-          </ProfileBox>
+          </ProfileSection>
         </Content>
       </Main>
     </Container>
