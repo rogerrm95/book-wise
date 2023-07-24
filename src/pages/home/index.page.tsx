@@ -39,6 +39,8 @@ interface HomeProps {
 export default function Home({ ratings, rating, popularBooks }: HomeProps) {
   const { status, data } = useSession()
 
+  console.log(rating)
+
   return (
     <Container>
       <Menu />
@@ -147,10 +149,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
   console.log(rating)
 
-  const ratingFormatted = {
-    ...rating,
-    createdAt: calculateRelativeTime(rating.createdAt),
-  } as RatingType
+  const ratingFormatted =
+    rating &&
+    ({
+      ...rating,
+      createdAt: calculateRelativeTime(rating.createdAt),
+    } as RatingType)
 
   const ratingsFormatted = ratings.map((rating: RatingType) => {
     return {
