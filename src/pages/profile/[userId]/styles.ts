@@ -14,6 +14,7 @@ export const Container = styled('div', {
   // Laptop  //
   '@media(max-width: 992px)': {
     gridTemplateColumns: '1fr',
+    gap: '1rem',
   },
 })
 

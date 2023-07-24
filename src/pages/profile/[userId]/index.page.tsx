@@ -11,6 +11,7 @@ import { calculateRelativeTime } from '@/utils/calculateRelativeTime'
 
 import { Avatar } from '@/components/Avatar'
 import { Menu } from '@/components/Menu'
+import { Menu as MenuResponsive } from '@/components/Responsive/Menu'
 import { PageTitle } from '@/components/PageTitle'
 import { Rating } from '@/components/Rating'
 import { SearchInput } from '@/components/Forms/SearchInput'
@@ -144,6 +145,7 @@ export default function Home() {
   return (
     <Container>
       <Menu />
+      <MenuResponsive />
 
       <Main>
         <PageTitle title="Perfil" Icon={User} />
