@@ -13,6 +13,7 @@ import { Card } from '@/components/Card'
 import { LastBookRead } from '@/components/LastBookRead'
 import { Menu } from '@/components/Menu'
 import { PageTitle } from '@/components/PageTitle'
+import { Menu as MenuResponsive } from '@/components/Responsive/Menu'
 
 import { CaretRight, ChartLineUp } from '@phosphor-icons/react'
 import {
@@ -38,9 +39,13 @@ interface HomeProps {
 export default function Home({ ratings, rating, popularBooks }: HomeProps) {
   const { status, data } = useSession()
 
+  console.log(rating)
+
   return (
     <Container>
       <Menu />
+
+      <MenuResponsive />
 
       <Main>
         <PageTitle title="Início" Icon={ChartLineUp} />
@@ -142,10 +147,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     .get('/ratings/popular-books')
     .then((res) => res.data)
 
-  const ratingFormatted = {
-    ...rating,
-    createdAt: calculateRelativeTime(rating.createdAt),
-  } as RatingType
+  console.log(rating)
+
+  const ratingFormatted =
+    rating &&
+    ({
+      ...rating,
+      createdAt: calculateRelativeTime(rating.createdAt),
+    } as RatingType)
 
   const ratingsFormatted = ratings.map((rating: RatingType) => {
     return {

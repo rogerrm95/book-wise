@@ -11,6 +11,7 @@ import { calculateRelativeTime } from '@/utils/calculateRelativeTime'
 
 import { Avatar } from '@/components/Avatar'
 import { Menu } from '@/components/Menu'
+import { Menu as MenuResponsive } from '@/components/Responsive/Menu'
 import { PageTitle } from '@/components/PageTitle'
 import { Rating } from '@/components/Rating'
 import { SearchInput } from '@/components/Forms/SearchInput'
@@ -35,7 +36,7 @@ import {
   BookInfo,
   BookReview,
   BookDescription,
-  ProfileBox,
+  ProfileSection,
   ProfileHeader,
   ProfileStatus,
   StatusItem,
@@ -144,6 +145,7 @@ export default function Home() {
   return (
     <Container>
       <Menu />
+      <MenuResponsive />
 
       <Main>
         <PageTitle title="Perfil" Icon={User} />
@@ -193,7 +195,7 @@ export default function Home() {
             </ReviewsList>
           </ReviewSection>
 
-          <ProfileBox>
+          <ProfileSection>
             {!isLoading ? (
               <>
                 <ProfileHeader>
@@ -253,7 +255,7 @@ export default function Home() {
                 Carregando...
               </LoadingSpinner>
             )}
-          </ProfileBox>
+          </ProfileSection>
         </Content>
       </Main>
     </Container>

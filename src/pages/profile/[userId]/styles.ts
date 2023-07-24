@@ -10,6 +10,12 @@ export const Container = styled('div', {
   padding: '$5',
   maxWidth: '1440px',
   margin: 'auto',
+
+  // Laptop  //
+  '@media(max-width: 992px)': {
+    gridTemplateColumns: '1fr',
+    gap: '1rem',
+  },
 })
 
 export const Main = styled('main', {
@@ -25,6 +31,12 @@ export const Content = styled('div', {
   display: 'flex',
   gap: '4rem',
   marginBottom: '$10',
+
+  // MOBILE  //
+  '@media(max-width: 600px)': {
+    flexDirection: 'column-reverse',
+    gap: '2rem',
+  },
 })
 
 export const ReviewSection = styled('section', {
@@ -97,7 +109,7 @@ export const BookReview = styled('p', {
 })
 
 // PERFIL //
-export const ProfileBox = styled('div', {
+export const ProfileSection = styled('div', {
   flex: 1,
 
   display: 'flex',
@@ -118,6 +130,13 @@ export const ProfileBox = styled('div', {
     width: '32px',
     background: '$gradient-horizontal',
     borderRadius: '$full',
+  },
+
+  // MOBILE //
+  '@media(max-width: 600px)': {
+    borderLeft: 'none',
+    borderBottom: '1px solid $colors$gray700',
+    paddingBottom: '$4',
   },
 })
 

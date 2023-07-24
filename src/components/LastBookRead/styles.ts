@@ -3,13 +3,16 @@ import { styled } from '@stitches/react'
 import Image from 'next/image'
 
 export const LastBookReadContainer = styled('div', {
-  backgroundColor: '$gray600',
-
   display: 'flex',
   gap: '$6',
   padding: '$6 $5',
 
   borderRadius: '$md',
+  backgroundColor: '$gray600',
+
+  '& > div:last-child': {
+    marginLeft: 'auto',
+  },
 })
 
 export const BookImage = styled(Image, {
@@ -27,6 +30,8 @@ export const BookInfo = styled('div', {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: '$3',
 
     span: {
       color: '$gray300',
@@ -49,13 +54,24 @@ export const BookInfo = styled('div', {
       color: '$gray400',
       fontSize: '$sm',
     },
+
+    'p, span': {
+      overflow: 'hidden',
+      display: '-webkit-box',
+      '-webkit-box-orient': 'vertical',
+      '-webkit-line-clamp': 1,
+      whiteSpace: 'pre-wrap',
+    },
   },
 
   '& > p': {
     marginTop: '$3',
     fontSize: '$sm',
     color: '$gray400',
-    // LIMITAÇÃO DE CARACTERES VISÍVEIS //
-    // ... //
+    overflow: 'hidden',
+    display: '-webkit-box',
+    '-webkit-box-orient': 'vertical',
+    '-webkit-line-clamp': 3,
+    whiteSpace: 'pre-wrap',
   },
 })

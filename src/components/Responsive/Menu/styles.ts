@@ -1,41 +1,95 @@
-import { styled } from '@stitches/react'
+import { keyframes, styled } from '@stitches/react'
 import Link from 'next/link'
 
-export const MenuContainer = styled('aside', {
-  backgroundImage: 'url(/images/menu-background.png)',
+// KEYFRAMES //
+const showIn = keyframes({
+  '0%': {
+    opacity: 0,
+  },
+  '50%': {
+    opacity: 50,
+  },
+  '100%': {
+    opacity: 100,
+  },
+})
 
+export const MenuContainer = styled('aside', {
+  display: 'none',
+
+  // ENABLE ONLY DEVICES WITH 992PX OR LESS //
+  '@media(max-width: 992px)': {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+    padding: '$6',
+    gap: '$6',
+
+    borderRadius: '$sm',
+    backgroundImage: 'url(/images/menu-responsive-background.png)',
+    backgroundRepeat: 'no-repeat',
+
+    hr: {
+      width: '100%',
+      height: '1px',
+      border: 'none',
+      backgroundColor: '$gray500',
+    },
+  },
+})
+
+// MOBILE ELEMENTS //
+export const Header = styled('header', {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  width: '100%',
+})
+
+export const HamburguerButton = styled('button', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '$2',
+
+  backgroundColor: '$gray500',
+  borderRadius: '$sm',
+  cursor: 'pointer',
+
+  transition: 'all 0.3s',
+
+  '&:hover': {
+    opacity: 0.8,
+    transform: 'scale(1.1)',
+  },
+
+  svg: {
+    color: '$gray100',
+  },
+})
+
+export const NavList = styled('nav', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '$6 $2',
-  borderRadius: '$md',
-
-  maxHeight: '900px',
-  height: '100vh',
-  width: '100%',
-
-  '@media(max-width: 992px)': {
-    display: 'none',
-  },
-})
-
-export const MenuList = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
   justifyContent: 'center',
-  gap: '$4',
+  padding: '$4',
+  gap: '$6',
 
-  marginTop: '4rem',
-
-  '@media(max-width: 992px)': {
-    display: 'none',
+  '&.menu-open': {
+    animation: `${showIn} 1.3s ease-in`,
   },
 })
 
-export const MenuLink = styled(Link, {
+export const NavLink = styled(Link, {
   display: 'flex',
   gap: '$3',
   padding: '$1',
+
+  width: '100%',
 
   textAlign: 'left',
   color: '$gray400',
@@ -62,6 +116,10 @@ export const MenuLink = styled(Link, {
 
   '&:hover': {
     transform: 'scale(1.05)',
+  },
+
+  '&:last-child:hover': {
+    color: '$red500',
   },
 })
 
@@ -122,33 +180,5 @@ export const MenuSignOutButton = styled('button', {
 
   '@media(max-width: 992px)': {
     display: 'none',
-  },
-})
-
-// MOBILE ELEMENTS //
-
-export const HamburguerButton = styled('button', {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '$2',
-
-  backgroundColor: '$gray600',
-
-  svg: {
-    color: '$gray100',
-  },
-})
-
-export const Navbar = styled('nav', {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '$2',
-
-  backgroundColor: '$gray600',
-
-  svg: {
-    color: '$gray100',
   },
 })

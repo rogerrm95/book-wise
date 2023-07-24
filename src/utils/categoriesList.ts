@@ -11,4 +11,4 @@ export const categoriesList = [
   'Romance',
   'Suspense',
   'Terror',
-] as const
+] as string[]

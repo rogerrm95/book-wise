@@ -1,4 +1,5 @@
 import { styled } from '@stitches/react'
+import { RatingContainer } from '../Rating/styles'
 
 export const CommentContainer = styled('div', {
   padding: '1.5rem',
@@ -15,6 +16,14 @@ export const Header = styled('header', {
   display: 'grid',
   gridTemplateColumns: '40px 1fr 96px',
   gap: '$4',
+
+  // MOBILE //
+  '@media(max-width: 600px)': {
+    gridTemplateColumns: '40px 1fr',
+    [`${RatingContainer}`]: {
+      display: 'none',
+    },
+  },
 })
 
 export const User = styled('div', {

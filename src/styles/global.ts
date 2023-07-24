@@ -7,6 +7,13 @@ export const globalStyles = globalCss({
     margin: 0,
   },
 
+  // LAPTOP OR LESS //
+  '@media(max-width: 992px)': {
+    html: {
+      fontSize: '93.75%',
+    },
+  },
+
   body: {
     backgroundColor: '$gray800',
     color: '$gray100',

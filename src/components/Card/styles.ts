@@ -43,6 +43,7 @@ export const BookImage = styled(Image, {
 export const BookInfo = styled('div', {
   display: 'flex',
   flexDirection: 'column',
+  gap: '$2',
 
   p: {
     fontWeight: '$bold',
@@ -64,15 +65,34 @@ export const BookInfo = styled('div', {
 })
 
 export const Tag = styled('span', {
-  backgroundColor: '$green300',
-  color: '$green100',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   padding: '$1 $1',
+
+  backgroundColor: '$green300',
   borderBottomLeftRadius: '$sm',
 
+  color: '$green100',
   textAlign: 'center',
   fontSize: '$xs',
 
   position: 'absolute',
   top: 0,
   right: 0,
+
+  svg: {
+    display: 'none',
+  },
+
+  // LAPTOP OR LESS //
+  '@media(max-width: 992px)': {
+    svg: {
+      display: 'block',
+    },
+
+    span: {
+      display: 'none',
+    },
+  },
 })

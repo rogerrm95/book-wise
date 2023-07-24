@@ -13,10 +13,13 @@ export const CardContainer = styled('div', {
 })
 
 export const Header = styled('header', {
-  display: 'grid',
-  gridTemplateColumns: '40px 1fr 96px',
+  display: 'flex',
   alignItems: 'center',
   gap: '$4',
+
+  '& > div:last-child': {
+    marginLeft: 'auto',
+  },
 })
 
 export const User = styled('div', {
@@ -71,6 +74,14 @@ export const BookHeader = styled('div', {
   span: {
     fontSize: '$sm',
     color: '$gray400',
+  },
+
+  'p, span': {
+    overflow: 'hidden',
+    display: '-webkit-box',
+    '-webkit-box-orient': 'vertical',
+    '-webkit-line-clamp': 1,
+    whiteSpace: 'pre-wrap',
   },
 })
 
