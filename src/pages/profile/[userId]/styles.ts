@@ -31,8 +31,8 @@ export const Content = styled('div', {
   gap: '4rem',
   marginBottom: '$10',
 
-  // Laptop  //
-  '@media(max-width: 992px)': {
+  // MOBILE  //
+  '@media(max-width: 600px)': {
     flexDirection: 'column-reverse',
     gap: '2rem',
   },
