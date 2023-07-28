@@ -39,8 +39,6 @@ interface HomeProps {
 export default function Home({ ratings, rating, popularBooks }: HomeProps) {
   const { status, data } = useSession()
 
-  console.log(rating)
-
   return (
     <Container>
       <Menu />
@@ -146,8 +144,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const { popularBooks } = await api
     .get('/ratings/popular-books')
     .then((res) => res.data)
-
-  console.log(rating)
 
   const ratingFormatted =
     rating &&
