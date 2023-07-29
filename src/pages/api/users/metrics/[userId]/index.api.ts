@@ -16,7 +16,7 @@ export default async function handler(
     return res.status(400).json({ message: 'User ID not found' })
   }
 
-  const response = await prisma.user.findFirstOrThrow({
+  const response = await prisma.user.findFirst({
     where: {
       id: userId,
     },
@@ -46,6 +46,10 @@ export default async function handler(
       },
     },
   })
+
+  if (!response) {
+    return res.status(404).json({ message: 'User not found!' })
+  }
 
   const userInfo = {
     name: response.name,

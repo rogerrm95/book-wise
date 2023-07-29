@@ -112,11 +112,10 @@ export default function Home() {
       setUserMetrics(user.metrics)
       setUserInfo(userInfoFormatted)
       setRatings(ratingsFormatted)
+      setIsLoading(false)
     }
 
-    loadUserInfoAndMetrics().then((_) => {
-      setIsLoading(false)
-    })
+    loadUserInfoAndMetrics()
   }, [userId])
 
   // FUNÇÃO - BUSCAR CORRESPONDÊNCIA //
@@ -261,4 +260,27 @@ export default function Home() {
       </Main>
     </Container>
   )
+}
+
+// GET SERVER SIDE //
+// GARANTINDO QUE APENAS USUÁRIOS LOGADOS VERÃO ESTÁ PÁGINA //
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await getServerSession(
+    req,
+    res,
+    buildNextAuthOptions(req, res),
+  )
+
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+    }
+  }
+
+  return {
+    props: {},
+  }
 }

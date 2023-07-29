@@ -6,5 +6,5 @@ const baseURL =
     : process.env.URL_DEV
 
 export const api = axios.create({
-  baseURL: `${baseURL}/api`,
+  baseURL: `/api`,
 })
