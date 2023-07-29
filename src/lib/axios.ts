@@ -6,5 +6,5 @@ const baseURL =
     : process.env.URL_DEV
 
 export const api = axios.create({
-  baseURL: `/api`,
+  baseURL: `https://book-wise-beta-brown.vercel.app/api`,
 })
