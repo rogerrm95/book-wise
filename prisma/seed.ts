@@ -57,28 +57,7 @@ async function main() {
     })
   })
 
-  const ratingsSeed = ratings.map((rating) => {
-    return prisma.rating.create({
-      data: {
-        id: rating.id,
-        rate: rating.rate,
-        description: rating.description,
-        user: {
-          connect: { id: rating.user_id },
-        },
-        book: {
-          connect: { id: rating.book_id },
-        },
-      },
-    })
-  })
-
-  await prisma.$transaction([
-    ...categoriesSeed,
-    ...booksSeed,
-    ...usersSeed,
-    ...ratingsSeed,
-  ])
+  await prisma.$transaction([...categoriesSeed, ...booksSeed, ...usersSeed])
 }
 
 main()
