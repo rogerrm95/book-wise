@@ -10,6 +10,7 @@ Book Wise
 Desafio 6 - Bootcamp Ignite Rocketseat - 2022-2023 🚀
 </h4>
 
+
  # 💻 Projeto
  
 Book wise é uma aplicação onde você tem acesso aos mais famosos livros, de diferentes genêros previamente cadastros. Está em dúvida se compra ou não aquele livro? No Book Wise você pode encontrar inúmeras reviews de leitores que já o leram e o avaliaram na plataforma. Claro, você também poderá avaliar um livro, bastando apenas se registrar/logar na aplicação utilizando sua conta do Google ou Github.
@@ -20,6 +21,7 @@ O Projeto também foi desenvolvido do total zero, apenas seguindo o layout propo
 
 Por fim, a aplicação está totalmente adequada a diferentes tamanhos de tela, desde ultrawide a telas dos menores smartphones.
 
+
  # 🧪 Tecnologias
 
 Esse projeto foi desenvolvido com as seguintes principais tecnologias:
@@ -29,7 +31,10 @@ Esse projeto foi desenvolvido com as seguintes principais tecnologias:
 - [Prisma]( https://www.prisma.io/);
 - [Next-Auth](https://next-auth.js.org/);
 - [Next JS](https://nextjs.org/);
+- [Stitches](https://stitches.dev);
+- [Radix-UI](https://www.radix-ui.com/)
 - [Days.js](https://day.js.org/);
+
 
 # 🚀 Como executar
 
@@ -49,9 +54,11 @@ $ yarn start
 ```
 O app estará disponível no seu browser pelo endereço http://localhost:3000.
 
+
 # 🎨 Layout
 Você pode visualizar o layout do projeto através do link abaixo:
 - [Layout Web](https://www.figma.com/file/kvP1lQ487qLj4ymFKBsODr/Book-Wise?type=design&t=kUe9eDatrvTKeOHV-6) (Lembrando que você precisa ter uma conta no Figma).
+
 
 # 📃 License
 [MIT](https://choosealicense.com/licenses/mit/)
